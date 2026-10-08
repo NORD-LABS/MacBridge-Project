@@ -106,7 +106,23 @@ reasons will be precise and documented.
 
 ## License
 
-Original documentation and assets in this repository are released under the [MIT License](LICENSE).
+MacBridge-Project is **proprietary source-available material**.
+
+Copyright © 2026 Théodore Beaupré, operating as ISO NORD CA. All rights reserved.
+
+The materials in this repository are publicly viewable for limited evaluation, research, security review,
+and contribution purposes, but this project is **not open source**.
+
+No general permission is granted to use, modify, redistribute, deploy, commercialize, create derivative
+works from, scrape, or use these materials for artificial-intelligence or machine-learning training.
+
+GitHub platform-level viewing and forking remain subject to GitHub's Terms of Service.
+Contributions are governed by the Contributions section of the license.
+
+See [LICENSE.md](LICENSE.md) for the complete terms.
+
+Commercial or additional licensing: info@theo-picture.com
+
 MacBridge is not affiliated with or endorsed by Apple Inc. or the Blender Foundation. macOS, iPadOS, iPad,
 Apple Silicon, and Metal are trademarks of Apple Inc. Blender is a trademark of the Blender Foundation.
 
