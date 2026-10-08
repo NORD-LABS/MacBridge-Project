@@ -52,6 +52,7 @@ When we report progress, we always say which of the two we mean.
 | ✅ | ARM64 macOS execution fixtures verified on an Apple Silicon Mac |
 | ✅ | Blender dependency analysis (official Apple Silicon build, and 4.5 LTS Intel) |
 | ✅ | Blender reference run on a Mac (headless, CPU render) — not an iPad result |
+| ✅ | Headless Blender runtime requirements mapped (static analysis + Mac reference) |
 | ⏳ | Physical-iPad macOS execution research |
 | ⏳ | Foundation / runtime compatibility |
 | ⏳ | Filesystem / runtime services |

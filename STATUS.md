@@ -12,7 +12,7 @@ macOS software on iPadOS**. The MacBridge app itself runs on a physical iPad.
 | Item | Status | Notes |
 |---|---|---|
 | Latest release | `v0.1.0-alpha` | Published as a pre-release in the private development repository (inspector only) |
-| Automated tests | 346 passing | At the latest recorded checkpoint, clean build |
+| Automated tests | 363 passing | At the latest recorded checkpoint, clean build |
 | Inspector (Mach-O, bundles, signatures, entitlements, dependency graph) | Working | On macOS (command line) and in the iPad app |
 | MacBridge app on a physical iPad | Installed and tested | Apple Silicon iPad, standard developer deployment |
 | Own ARM64 macOS test programs on an Apple Silicon Mac | Verified | Six small research fixtures (C library, Foundation, dynamic loading, files, loopback networking, threads) |
@@ -43,6 +43,10 @@ macOS software on iPadOS**. The MacBridge app itself runs on a physical iPad.
   libraries that iPadOS does not have.
 - A headless start needs far less than the whole app: the program, its core libraries and Python's
   standard library — not the UI resources or most Python packages (measured on Macs).
+- The system functions a headless Blender start would need that iPadOS lacks have been listed and
+  classified. Most are definitions that only need to exist for the program to load, or belong to
+  windowing, display, keyboard and audio code that a headless run is not expected to call. This is a
+  static analysis of what would be required, not a demonstration that anything runs.
 - Metal compatibility on a physical iPad remains unknown; symbol availability says nothing about behaviour.
 
 ## Next
