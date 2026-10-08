@@ -48,6 +48,10 @@ macOS software on iPadOS**. The MacBridge app itself runs on a physical iPad.
   windowing, display, keyboard and audio code that a headless run is not expected to call. This is a
   static analysis of what would be required, not a demonstration that anything runs.
 - Metal compatibility on a physical iPad remains unknown; symbol availability says nothing about behaviour.
+- Blender 5.2.2 ARM64 headless dependency attribution has been reproduced against a canonical build
+  artifact with build-identity tracking. Each missing system function is now traced to the exact
+  component that needs it, and evidence from a different Blender build can no longer be mixed in. This
+  is still static analysis on a Mac; nothing runs through MacBridge.
 
 ## Next
 
