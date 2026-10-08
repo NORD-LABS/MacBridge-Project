@@ -55,6 +55,9 @@ macOS software on iPadOS**. The MacBridge app itself runs on a physical iPad.
 - MacBridge now has an experimental load-time compatibility surface for the Objective-C classes and data
   symbols identified by the Blender 5.2.2 headless analysis. It has been validated only with original test
   fixtures; Blender itself still does not run through MacBridge.
+- MacBridge now has an evidence-driven mapping of Blender 5.2.2's startup system libraries to iOS
+  equivalents, MacBridge compatibility layers, or unresolved dependencies. This remains static/runtime-surface
+  research; Blender still does not run through MacBridge.
 
 ## Next
 
