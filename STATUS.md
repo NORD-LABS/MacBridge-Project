@@ -52,6 +52,9 @@ macOS software on iPadOS**. The MacBridge app itself runs on a physical iPad.
   artifact with build-identity tracking. Each missing system function is now traced to the exact
   component that needs it, and evidence from a different Blender build can no longer be mixed in. This
   is still static analysis on a Mac; nothing runs through MacBridge.
+- MacBridge now has an experimental load-time compatibility surface for the Objective-C classes and data
+  symbols identified by the Blender 5.2.2 headless analysis. It has been validated only with original test
+  fixtures; Blender itself still does not run through MacBridge.
 
 ## Next
 
