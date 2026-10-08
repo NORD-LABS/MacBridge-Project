@@ -58,7 +58,7 @@ Let GPU-rendered macOS software draw on the iPad's GPU.
 - Presenting rendered frames in the iPad window.
 - Performance measurement.
 
-## 6. Blender ⏳
+## 6. Blender 🔬 (readiness research started)
 
 The North Star: the official ARM64 macOS build of Blender, running locally on an Apple Silicon iPad.
 
@@ -67,5 +67,9 @@ The North Star: the official ARM64 macOS build of Blender, running locally on an
 | 6a. Headless | `blender --background` starts, runs a Python script, renders with a CPU engine, writes a file |
 | 6b. UI | The Blender window opens and accepts input |
 | 6c. Viewport and rendering | The 3D viewport draws through Metal; GPU rendering works |
+
+**Readiness research (in progress):** dependency analysis of Blender 4.5 LTS (Intel build) is complete;
+a reference run of Blender on a Mac (headless start, Python, CPU render, save) is recorded. The Apple
+Silicon build is next. None of this means Blender runs through MacBridge.
 
 Blender is a target for research, not a supported application.
