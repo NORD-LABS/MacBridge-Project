@@ -12,14 +12,14 @@ macOS software on iPadOS**. The MacBridge app itself runs on a physical iPad.
 | Item | Status | Notes |
 |---|---|---|
 | Latest release | `v0.1.0-alpha` | Published as a pre-release in the private development repository (inspector only) |
-| Automated tests | 336 passing | At the latest recorded checkpoint, clean build |
+| Automated tests | 346 passing | At the latest recorded checkpoint, clean build |
 | Inspector (Mach-O, bundles, signatures, entitlements, dependency graph) | Working | On macOS (command line) and in the iPad app |
 | MacBridge app on a physical iPad | Installed and tested | Apple Silicon iPad, standard developer deployment |
 | Own ARM64 macOS test programs on an Apple Silicon Mac | Verified | Six small research fixtures (C library, Foundation, dynamic loading, files, loopback networking, threads) |
 | Same programs in the iOS Simulator | Measured | Builds made for the simulator run; macOS builds are refused by the dynamic loader (`incompatible platform`) |
 | A macOS binary running locally on a physical iPad | **Not achieved** | Not yet demonstrated by any measurement |
-| Blender dependency analysis | Completed for Blender 4.5 LTS (Intel build) | Every library, plug-in and Python module in the app inventoried; what each needs from the system mapped. The Apple Silicon build has not been analysed yet |
-| Blender on its own platform (Mac, reference only) | Measured | Blender started without a UI, ran Python, rendered a small image on the CPU and saved a file on a Mac. This is the reference a future MacBridge run must reproduce; it is **not** an iPad result |
+| Blender dependency analysis | Completed for the official Apple Silicon build (Blender 5.2) and for Blender 4.5 LTS (Intel) | Every library, plug-in and Python module inventoried; what each needs from the system mapped |
+| Blender on its own platform (Mac, reference only) | Measured on Intel and Apple Silicon Macs | Blender started without a UI, ran Python, rendered a small image on the CPU, saved and reopened a file. This is the reference a future MacBridge run must reproduce; it is **not** an iPad result |
 | Blender through MacBridge | **Not supported** | No part of Blender has been run through MacBridge, on any device |
 
 ## What the measurements say so far
@@ -41,9 +41,11 @@ macOS software on iPadOS**. The MacBridge app itself runs on a physical iPad.
 - Most of the system functions Blender uses also exist on iPadOS, including all of the Metal graphics
   functions it calls. The gaps are concentrated in macOS windowing, keyboard, display, and audio
   libraries that iPadOS does not have.
+- A headless start needs far less than the whole app: the program, its core libraries and Python's
+  standard library — not the UI resources or most Python packages (measured on Macs).
 - Metal compatibility on a physical iPad remains unknown; symbol availability says nothing about behaviour.
 
 ## Next
 
-Analyse the official Apple Silicon build of Blender the same way, and keep mapping each requirement of
-a headless Blender start to a measured answer or a precisely identified blocker — see [ROADMAP.md](ROADMAP.md).
+Keep mapping each requirement of a headless Blender start to a measured answer or a precisely
+identified blocker — see [ROADMAP.md](ROADMAP.md).

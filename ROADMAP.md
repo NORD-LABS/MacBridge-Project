@@ -68,8 +68,8 @@ The North Star: the official ARM64 macOS build of Blender, running locally on an
 | 6b. UI | The Blender window opens and accepts input |
 | 6c. Viewport and rendering | The 3D viewport draws through Metal; GPU rendering works |
 
-**Readiness research (in progress):** dependency analysis of Blender 4.5 LTS (Intel build) is complete;
-a reference run of Blender on a Mac (headless start, Python, CPU render, save) is recorded. The Apple
-Silicon build is next. None of this means Blender runs through MacBridge.
+**Readiness research (in progress):** dependency analysis of the official Apple Silicon build (and of
+4.5 LTS for Intel) is complete; reference runs of Blender on Macs (headless start, Python, CPU render,
+save, reopen) are recorded. None of this means Blender runs through MacBridge.
 
 Blender is a target for research, not a supported application.

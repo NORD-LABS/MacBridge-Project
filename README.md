@@ -50,9 +50,8 @@ When we report progress, we always say which of the two we mean.
 | ✅ | Runtime capability / preflight model |
 | ✅ | MacBridge app tested on a physical Apple Silicon iPad |
 | ✅ | ARM64 macOS execution fixtures verified on an Apple Silicon Mac |
-| ✅ | Blender dependency analysis (4.5 LTS, Intel build) |
+| ✅ | Blender dependency analysis (official Apple Silicon build, and 4.5 LTS Intel) |
 | ✅ | Blender reference run on a Mac (headless, CPU render) — not an iPad result |
-| ⏳ | Blender Apple Silicon build analysis |
 | ⏳ | Physical-iPad macOS execution research |
 | ⏳ | Foundation / runtime compatibility |
 | ⏳ | Filesystem / runtime services |
