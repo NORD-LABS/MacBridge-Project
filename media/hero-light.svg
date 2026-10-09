@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="240" viewBox="0 52 1200 240" role="img" aria-labelledby="t d">
+  <title id="t">MacBridge</title>
+  <desc id="d">The MacBridge wordmark beside a line drawing of a Mac and an iPad joined by a bridge. The span leaving the Mac is drawn solid; the span reaching the iPad is dashed, because that half has not been built yet.</desc>
+  <style>
+    .label { font: 600 15px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Helvetica, Arial, sans-serif; letter-spacing: 3.5px; fill: #5E6570; }
+    .word  { font: 650 96px -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Helvetica, Arial, sans-serif; letter-spacing: -2.5px; fill: #14171C; }
+    .tiny  { font: 500 13px ui-monospace, "SF Mono", Menlo, Consolas, monospace; fill: #5E6570; }
+  </style>
+  <text class="label" x="40" y="104">NORD LABS · SYSTEMS RESEARCH</text>
+  <text class="word" x="34" y="196">MacBridge</text>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Mac -->
+    <rect x="652" y="102" width="176" height="112" rx="9" stroke="#9AA1AB" stroke-width="2.5"/>
+    <path d="M634 224 H846" stroke="#9AA1AB" stroke-width="2.5"/>
+    <!-- iPad -->
+    <rect x="1036" y="84" width="122" height="160" rx="16" stroke="#9AA1AB" stroke-width="2.5"/>
+    <circle cx="1097" cy="96" r="2.2" fill="#9AA1AB" stroke="none"/>
+    <path d="M718 224 Q 740 231 762 224" stroke="#9AA1AB" stroke-width="2"/>
+    <!-- deck -->
+    <path d="M846 224 H936" stroke="#2F5FD0" stroke-width="2.5"/>
+    <path d="M936 224 H1036" stroke="#C9CED6" stroke-width="2.5" stroke-dasharray="6 7"/>
+    <!-- arch: built half solid, unbuilt half dashed -->
+    <path d="M846 224 Q 941 104 1036 224" stroke="#C9CED6" stroke-width="2.5" stroke-dasharray="6 7"/>
+    <path d="M846 224 Q 893.5 164 941 164" stroke="#2F5FD0" stroke-width="3"/>
+    <!-- hangers -->
+    <path d="M870 196 V224 M894 180 V224 M918 168 V224" stroke="#2F5FD0" stroke-width="1.6"/>
+    <path d="M964 168 V224 M988 180 V224 M1012 196 V224" stroke="#C9CED6" stroke-width="1.6" stroke-dasharray="3 5"/>
+  </g>
+  <text class="tiny" x="652" y="262">macOS · arm64</text>
+  <text class="tiny" x="1036" y="276">iPadOS · arm64</text>
+</svg>

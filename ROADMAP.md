@@ -27,7 +27,8 @@ Find out exactly what stands between an ARM64 macOS binary and execution on an i
 - Baselines on Apple Silicon Macs and in the iOS Simulator. ✅
 - A runtime capability model: CPU, platform metadata, code signing, loader, system libraries, process
   creation, executable memory, filesystem, networking — each recorded as met, blocked, or unknown. ✅
-- Measurements on a physical iPad using standard developer tools. ⏳
+- An experimental research loader that runs MacBridge's own test libraries on a Mac (Intel, x86_64). ✅
+- Measurements on a physical iPad using standard developer tools: probe app built and installed, not yet run. ⏳
 
 **Done when:** each capability has a measured answer on a physical iPad, or a precisely identified blocker.
 

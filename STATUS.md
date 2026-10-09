@@ -1,6 +1,6 @@
 # MacBridge status
 
-*Last updated: 2026-10-08 (Alpha 0.3 interim)*
+*Last updated: 2026-10-09 (Alpha 0.3 interim)*
 
 ## Summary
 
@@ -12,11 +12,13 @@ macOS software on iPadOS**. The MacBridge app itself runs on a physical iPad.
 | Item | Status | Notes |
 |---|---|---|
 | Latest release | `v0.1.0-alpha` | Published as a pre-release in the private development repository (inspector only) |
-| Automated tests | 363 passing | At the latest recorded checkpoint, clean build |
+| Automated tests | 469 passing | At the latest recorded checkpoint (2026-10-08, Intel Mac), clean build |
 | Inspector (Mach-O, bundles, signatures, entitlements, dependency graph) | Working | On macOS (command line) and in the iPad app |
 | MacBridge app on a physical iPad | Installed and tested | Apple Silicon iPad, standard developer deployment |
 | Own ARM64 macOS test programs on an Apple Silicon Mac | Verified | Six small research fixtures (C library, Foundation, dynamic loading, files, loopback networking, threads) |
 | Same programs in the iOS Simulator | Measured | Builds made for the simulator run; macOS builds are refused by the dynamic loader (`incompatible platform`) |
+| MacBridge's own research loader | Runs MacBridge's own test libraries on an Intel Mac | Maps, fixes up, links several libraries, sets up thread-local variables, registers Objective-C classes, runs initializers and calls functions; memory after fixups matches the analysis model byte for byte. Own fixtures only, x86_64 only, not on an iPad |
+| Capability probe on a physical iPad | Built and installed, **not yet run** | Measures memory limits and whether an app may map and run its own signed test library; the run was postponed (device locked), so there is no result yet |
 | A macOS binary running locally on a physical iPad | **Not achieved** | Not yet demonstrated by any measurement |
 | Blender dependency analysis | Completed for the official Apple Silicon build (Blender 5.2) and for Blender 4.5 LTS (Intel) | Every library, plug-in and Python module inventoried; what each needs from the system mapped |
 | Blender on its own platform (Mac, reference only) | Measured on Intel and Apple Silicon Macs | Blender started without a UI, ran Python, rendered a small image on the CPU, saved and reopened a file. This is the reference a future MacBridge run must reproduce; it is **not** an iPad result |
