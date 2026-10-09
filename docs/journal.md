@@ -20,7 +20,9 @@ differ, the entry says so.
 - **Coverage-guided fuzzing** fed hundreds of thousands of generated files through MacBridge's decoders and import path.
   It found three defects that a crafted file could trigger: two crashes from integer overflow, and one input
   of 14 KiB that took more than three minutes to inspect in a debug build. All three are fixed, each with a minimised
-  reproducer and a test that fails on the old code. The ZIP importer was also fuzzed against a check that
+  reproducer and a test that fails on the old code. A later 20-minute re-run of the inspection fuzzer found
+  no crash and no timeout, and showed one of those inputs was still slow in a library model the app does
+  not use; that was fixed as well (405 portable tests pass after it). The ZIP importer was also fuzzed against a check that
   nothing can be written outside its destination folder: no escape found in over 600,000 runs.
 - The ARM64 version of the loader's thread-local entry code passed its register contract under an emulator,
   with MacBridge's real allocator behind it. Emulated, not on Apple hardware.
@@ -31,11 +33,11 @@ differ, the entry says so.
   [glossary](glossary.md), and a register of [verified facts](facts.md). While checking the old README
   against the records, one wording error was found and fixed (see [corrections](evidence.md#corrections)).
 
-### 2026-10-08 → 09: DeviceProbe built, installed, not run
+### 2026-10-08 → 09: DeviceProbe installed, not run
 
 DeviceProbe, the first experiment designed to run MacBridge's own loader on a physical iPad, was built and
 installed on an iPad Air 11-inch (M3). The run was postponed because the device was locked. **It has no
-results yet.** See [DeviceProbe](research/device-probe.md).
+results yet.** A later, improved version is on a research branch and will be reinstalled before the run. See [DeviceProbe](research/device-probe.md).
 
 ### 2026-10-08: the research loader runs on a Mac
 
@@ -56,7 +58,7 @@ Re-signing or modifying Blender's binaries was excluded. The `NSColor` question 
 ### 2026-10-08: Blender 5.2.2, mapped symbol by symbol
 
 The official ARM64 build of Blender 5.2.2 became the canonical subject, identified by its hash, with
-records from any other copy refused. In one long day of static research:
+records from any other copy refused. On that day:
 
 - every one of the 1,453 system symbols a headless start imports was assigned a provider;
 - every system library link was mapped to an iPadOS library, a stand-in, or a conflict;

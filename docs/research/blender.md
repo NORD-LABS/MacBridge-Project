@@ -88,10 +88,10 @@ example; see [Objective-C research](objective-c.md).
 ### Reference runs on Macs
 
 To know what success would look like, Blender was run *normally*, by Apple's own loader, on Macs. On an
-Apple Silicon Mac, the canonical 5.2.2 build:
+Apple Silicon CI runner (macOS 26.6.2, a run approved by the project owner), the canonical 5.2.2 build:
 
 - printed its version in `--background` mode (121 MiB peak memory);
-- ran a Python probe, rendered a 64×64 image with Cycles on the CPU and saved a `.blend` file;
+- ran a Python probe, rendered a 64×64 image with Cycles on the CPU and saved a `.blend` file (373 MiB peak);
 - reopened that file and rendered it again;
 - loaded exactly the 29 bundled libraries the static analysis predicted.
 
@@ -108,7 +108,7 @@ overall score. The current totals are PASS 5, PARTIAL 8, UNKNOWN 5, NOT TESTED 3
 | CPU | PASS | The program is plain ARM64, which Apple Silicon iPads execute. |
 | Fixups | PASS | Decoded identically to LLVM; the model reproduces Apple's loader on own fixtures. Not applied to Blender. |
 | Symbol routing | PARTIAL | Every import has a provider; one conflict and 38 unresolved lazy functions remain. |
-| Threads | PARTIAL | Thread and thread-local fixtures pass on the Mac and in the simulator. |
+| Threads | PARTIAL | Thread and thread-local fixtures pass on an Intel Mac and in the x86_64 iOS Simulator. |
 | Memory | UNKNOWN | The iPad's per-app limit has not been measured. |
 | Executable memory | UNKNOWN | How Blender's code could legitimately become executable in MacBridge's process is the decisive open question. |
 | Process and environment | BLOCKED | An iPad app cannot start a separate macOS program; Blender would have to run inside MacBridge's process, and no loader for that exists yet. |

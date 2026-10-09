@@ -128,7 +128,7 @@ Four tracks run alongside every phase:
 |---|---|
 | **Goal** | Build the smallest original pieces a Mac program needs just to load, and validate them with original fixtures. |
 | **Status** | EXPERIMENTAL. |
-| **Done so far** | A load surface for the 47 definitions Blender needs to load, validated on the Mac and in the simulator; an omission sweep shows each is required. |
+| **Done so far** | A load surface for the 47 definitions Blender needs to load, validated on an Intel Mac and in the x86_64 iOS Simulator; an omission sweep shows each is required. |
 | **Prerequisites** | Phase 2. |
 | **Evidence required** | Own fixtures that load with the component and fail without it, on the Mac, in the simulator and, later, on the iPad. |
 | **Success criteria** | The load-time surface works on a physical iPad with own fixtures. |
@@ -151,11 +151,11 @@ Four tracks run alongside every phase:
 | | |
 |---|---|
 | **Goal** | Measure what an iPad app may legitimately do with its own signed code, and whether MacBridge's loader can work within that. |
-| **Status** | ACTIVE. DeviceProbe is built and installed on an iPad Air (M3); it has not run. |
-| **Prerequisites** | Phase 4 on a Mac (the Intel results exist). |
+| **Status** | ACTIVE. An early build of DeviceProbe is installed on an iPad Air (M3); it has not run. |
+| **Prerequisites** | Phase 4's results on an Intel Mac (they exist). Phase 4's ARM64 criterion is not required to *measure*, but the probe's loader must be built for ARM64, which happens on a Mac. |
 | **Evidence required** | DeviceProbe's recorded results on a named iPad model and iPadOS build. |
 | **Success criteria** | Each question has a measured answer: memory limit, file limit, executable-memory policy, system-loader control, MacBridge's loader on its own signed library. |
-| **Blockers** | Needs the owner's Mac and an unlocked iPad. |
+| **Blockers** | The version that will run (crash-safe result logging, and the registration steps the system's loader performs for signed code) is on a research branch and has not been built; it must be built on a Mac and reinstalled. Then it needs the unlocked iPad, with Developer Mode on. |
 | **What it decides** | Whether phases 6 to 11 are possible on a stock iPad. See [DeviceProbe](docs/research/device-probe.md). |
 
 ### Phase 6 · First ARM64 macOS fixture on an iPad
@@ -228,7 +228,7 @@ change its shape. They are listed so nobody has to guess.
 |---|---|---|
 | **Executable memory and code signing** | iPadOS runs code that is signed into the app. If code that began as a Mac program can never be in that position legitimately, phases 6 to 11 are not possible on a stock iPad. | Phase 5, then 6. |
 | **One process** | An iPad app cannot start a separate process, so the Mac program would live inside MacBridge. Anything that assumes it owns the process has to be answered by MacBridge. | Phase 7. |
-| **Memory limits** | Blender used 350 MiB for a small CPU render on a Mac. The iPad's per-app limit has not been measured. | Phase 5. |
+| **Memory limits** | Blender used 350 to 373 MiB for small CPU renders on a Mac. The iPad's per-app limit has not been measured. | Phase 5. |
 | **Same name, different behaviour** | 1,368 of Blender's imports exist on iPadOS by name. None has been shown to behave the same for a Mac program. | Phases 6 to 8. |
 | **Objective-C collisions** | One process, one class namespace. `NSColor` already collides. | Phase 3 and the owner's decision. |
 | **Missing system services** | Some macOS libraries have no iPadOS equivalent at all (AppKit, Carbon, OpenGL). | Phases 8 and 9. |
@@ -245,5 +245,5 @@ separately.
 | **Cloud** | Documentation; fuzzing; execution-free models that need no Apple tools, such as how Blender finds its Python resources, and a load-time routing table. |
 | **Intel Mac** | Build and test the cloud research branch; confirm the reliability fixes leave every Blender figure unchanged; merge if everything passes. |
 | **Apple Silicon Mac** | Build and run the research loader with ARM64 fixtures; Python resource experiments on the canonical Blender build. |
-| **Physical iPad** | Run DeviceProbe in two stages, the safe measurements first, then the loader. Record the device model and iPadOS build. |
+| **Physical iPad** | Reinstall DeviceProbe from the research branch, then run it in two stages, the safe measurements first, then the loader. Record the device model and iPadOS build. |
 | **Owner decision** | The `NSColor` approach. Whether and when to merge the research branch. Publication of device results. |

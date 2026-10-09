@@ -30,14 +30,15 @@ Even in headless mode, where Blender never opens a window, these classes are loa
 ## Why names alone are not enough
 
 The obvious shortcut is to provide empty placeholder classes with the right names. MacBridge tested that
-with its own fixtures on the Mac and in the simulator: a **name-only placeholder fails before `main`**.
+with its own fixtures on an Intel Mac and in the x86_64 iOS Simulator: a **name-only placeholder fails before `main`**.
 What works is a real, minimal class with a proper superclass chain.
 
 MacBridge's experimental AppKit load surface therefore provides real, minimal classes with correct
 superclass chains. It covers the **47 macOS definitions** missing from iPadOS that Blender needs just to load: 39 from AppKit,
 the rest from Carbon, ColorSync and CoreServices. In an omission
-sweep, MacBridge removed each definition in turn and tried again: loading stopped every time, on the Mac and
-in the simulator (44 of 44 cases). Nothing in the set is unnecessary.
+sweep, MacBridge removed each definition in turn and tried again: loading stopped every time, on an Intel
+Mac and in the x86_64 iOS Simulator (44 of 44 cases; two related classes had to be removed together).
+Nothing in the set is unnecessary.
 
 These classes provide structure, not behaviour. They let a program load. They do not draw anything.
 
@@ -57,12 +58,12 @@ Of the 25 classes the AppKit load surface defines, exactly one collides: **UIKit
 named `NSColor`** (it is not documented by Apple). Blender references `NSColor` at load, from its main
 program.
 
-MacBridge measured the options with its own fixtures in the simulator:
+MacBridge measured the options with its own fixtures in the x86_64 iOS Simulator:
 
 | Approach | What happened |
 |---|---|
 | Define MacBridge's own `NSColor` | Loads, but the runtime warns of a duplicate, and two parts of the process see two different classes under one name. |
-| Reuse UIKit's class | Loads cleanly with one consistent class. It answers 5 of the 9 messages Blender's source sends to `NSColor`; the 4 missing ones are on the eyedropper path. |
+| Reuse UIKit's class | Loads cleanly with one consistent class. It has methods for 5 of the 9 messages Blender's source sends to `NSColor` (presence only; behaviour not tested); the 4 missing ones are on the eyedropper path. |
 | Provide nothing | Loading stops, as expected for a required reference. |
 
 Every place Blender uses `NSColor` is window or interface code, which a headless run is not expected to

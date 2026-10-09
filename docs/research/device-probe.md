@@ -1,9 +1,10 @@
 # DeviceProbe
 
 > [!NOTE]
-> DeviceProbe has been built and installed on a physical iPad, but **it has not run yet**, so it has no
-> results. The planned run was postponed because the device was locked. Nothing on this page is a
-> measurement from the iPad.
+> An early build of DeviceProbe was installed on a physical iPad, but **it has not run**, so there are no
+> results. The run was postponed because the device was locked. Since then, the probe and the loader it
+> carries were improved on a research branch; that version has not been built yet, and it is the one that
+> will be reinstalled and run. Nothing on this page is a measurement from the iPad.
 
 ## Why a physical iPad is required
 
@@ -25,7 +26,8 @@ Apple's standard developer tools and signed the normal way. It carries one of Ma
 libraries, built twice from the same source: once for iPadOS and once for macOS. Both copies are signed
 into the app by the normal build.
 
-No Blender code is involved. No Apple file is modified. No security setting is changed.
+No Blender code is involved and no Apple file is modified. The iPad has Developer Mode turned on, which is
+Apple's standard setting for running development builds; nothing else about the device is changed.
 
 ## What it measures
 
@@ -37,9 +39,10 @@ No Blender code is involved. No Apple file is modified. No security setting is c
 | Does the system's own loader accept each copy of the test library? | The iPadOS copy is the control. The macOS copy is expected to be refused by the platform check, as it was in the simulator. |
 | Can MacBridge's research loader map the signed test library, apply its fixups, run its initializer and call it? | This is the first time MacBridge's loader would run on an iPad. It is the question everything later depends on. |
 
-Every result is written the moment it is known, and each risky step announces itself before it starts. If
-the system ends the app during a step, the earlier results survive and the last record names the step that
-was running.
+In the version being prepared, every result is written the moment it is known, and each risky step
+announces itself before it starts. If the system ends the app during a step, the earlier results survive
+and the last record names the step that was running. The loader in that version also performs, before
+mapping a signed file, the registration steps the system's own loader performs for signed code.
 
 ## Which outcomes would be informative
 
@@ -48,9 +51,11 @@ All of them. That is the point of the design.
 - **The loader maps and runs the signed iPadOS test library.** MacBridge's loader works on the device for
   code the system already trusts. The next question becomes what it takes for code that started as a Mac
   program.
-- **The loader also runs the signed macOS copy.** Apple's loader refuses that copy because of its declared
-  platform. If an app's own loader can map it as signed code, that is an important data point about where
-  the platform check lives. It would be documented precisely, with its limits.
+- **The macOS copy behaves differently from the iPadOS copy.** Whatever the difference turns out to be, it
+  is a precise data point about how the platform treats code built for macOS. If a result could help
+  someone get around a platform protection, it will be reported privately to the vendor first and
+  published only in a form that does not describe a way around it, as [SECURITY.md](../../SECURITY.md)
+  requires.
 - **The system refuses, or ends the app, at a named step.** That is a precise negative result: blocked by X,
   at step Y, on iPadOS build Z. It may close one route entirely and show where another might be possible.
 

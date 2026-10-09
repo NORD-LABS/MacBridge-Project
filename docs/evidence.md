@@ -71,14 +71,14 @@ Automated test counts come from different suites in different environments. They
 | Suite | Environment | Count | Date | Branch |
 |---|---|---|---|---|
 | Full Swift test suite | Intel Mac, macOS 26.5.2 | 469 passing, 0 failures | 2026-10-08 | Main development branch |
-| Portable subset (the parts that build without Apple frameworks) | Cloud Linux, Swift 6.3.2 | 404 passing | 2026-10-09 | Research branch, not yet merged; not yet rebuilt on a Mac |
+| Portable subset (the parts that build without Apple frameworks) | Cloud Linux, Swift 6.3.2 | 405 passing | 2026-10-09 | Research branch, not yet merged; not yet rebuilt on a Mac |
 
-The Linux count is a subset of the same project, not 404 additional tests.
+The Linux count is a subset of the same project, not 405 additional tests.
 
 ## Corrections
 
-Research that never corrects itself is not paying attention. These are the corrections that changed a
-published or recorded conclusion. Each was found by checking a result a second way.
+These are the corrections that changed a published or recorded conclusion. Each was found by checking a
+result a second way.
 
 | Date | What was believed | What was found | How it was caught |
 |---|---|---|---|

@@ -35,6 +35,20 @@ A cryptographic signature over a program's code. Apple platforms check it before
 
 Software that lets a program written for one environment run in another by providing the services it expects. MacBridge is research into whether such a layer is possible on a stock iPad.
 
+### Cycles
+
+Blender's path-tracing renderer. It can render on the CPU, which makes it a useful headless milestone.
+
+### Developer Mode
+
+An iPadOS setting that allows development builds, installed from Xcode, to run on the device. It is Apple's
+standard development setting, not a security bypass.
+
+### DeviceProbe
+
+MacBridge's research app for measuring, on a physical iPad, what an app may do with its own signed test
+library. See [DeviceProbe](research/device-probe.md).
+
 ### dyld
 
 Apple's dynamic loader: the system component that loads a program and its libraries, applies fixups and runs initializers before the program's own code starts.
@@ -46,6 +60,11 @@ A dynamic library on Apple platforms: code loaded alongside a program rather tha
 ### Dynamic loader
 
 See [dyld](#dyld). MacBridge has its own experimental loader for research.
+
+### Emulator
+
+Software that executes instructions for another processor. MacBridge uses QEMU on Linux to check ARM64 code
+paths; an emulated result is not a result on Apple hardware.
 
 ### Entitlements
 
@@ -70,6 +89,11 @@ Apple's framework of basic types and services (strings, collections, files, date
 ### Framework
 
 A bundle that packages a dynamic library with its headers and resources.
+
+### Fuzzing
+
+Testing a program with large numbers of automatically generated, malformed inputs to find crashes and
+hangs. MacBridge fuzzes its decoders because the iPad app reads files supplied by the user.
 
 ### Headless
 

@@ -42,7 +42,7 @@ BANNED = [
     "rapidly evolving", "digital landscape", "transforming the way", "it's not just", "it’s not just",
 ]
 FORBIDDEN_CLAIMS = [
-    (re.compile(r"\b873\b"), "combined test count (469 and 404 are different suites)"),
+    (re.compile(r"\b87[34]\b"), "combined test count (469 and 404/405 are different suites)"),
     (re.compile(r"\b\d{1,3}\s?% (complete|finished|done)\b", re.I), "completion percentage"),
 ]
 LOCAL_PATH = re.compile(r"(/Users/[A-Za-z]|/home/[a-z]|[A-Z]:\\\\|file://)")

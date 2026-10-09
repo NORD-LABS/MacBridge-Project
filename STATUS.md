@@ -30,15 +30,15 @@ Every result below names the environment it was measured in. Definitions of the 
 |---|---|---|
 | Research loader maps, fixes up, links, initializes and calls MacBridge's own test libraries; memory after fixups matches the model byte for byte | Intel Mac, x86_64 | Own fixtures only. Not ARM64 on a Mac, not on an iPad, never Blender. |
 | Weak-symbol coalescing across several libraries, thread-local variables, Objective-C class registration through the documented runtime API | Intel Mac, x86_64 | Same. |
-| Load surface for the 47 definitions Blender needs to load (39 from AppKit); removing any one stops loading | Intel Mac and iOS Simulator, own fixtures | Structure only, not behaviour. Never tested with Blender. |
+| Load surface for the 47 definitions Blender needs to load (39 from AppKit); removing each in turn stopped loading (44 of 44 cases) | Intel Mac and x86_64 iOS Simulator, own fixtures | Structure only, not behaviour. Never tested with Blender. |
 | ARM64 thread-local entry code keeps its register contract on four threads | Cloud Linux, under the QEMU emulator | Emulated; not Darwin, not Apple hardware. |
 
 ### Under investigation
 
 | Question | State |
 |---|---|
-| What can an iPad app do with its own signed test library? | DeviceProbe built and installed on the iPad. **Not yet run**, so no result. |
-| How should `NSColor` be handled when UIKit already defines it? | Options measured in the simulator; **owner decision pending**. |
+| What can an iPad app do with its own signed test library? | An early build of DeviceProbe is installed on the iPad. **Not yet run**, so no result. The version that will run is on a research branch and must be built and reinstalled first. |
+| How should `NSColor` be handled when UIKit already defines it? | Options measured in the x86_64 iOS Simulator; **owner decision pending**. |
 | Do the reliability fixes from the 2026-10-09 cloud session build and pass on a Mac? | On a research branch; **not yet built on a Mac**. |
 
 ### Not yet demonstrated
@@ -70,7 +70,7 @@ from one column to another. "—" means no recorded result: NOT TESTED there.
 | Research loader, own x86_64 fixtures | — | **PASS** | — | — | — |
 | Research loader, own ARM64 fixtures | thread-local entry code only, emulated | — | — | — | — |
 | AppKit load surface, own fixtures | — | **PASS** | — | **PASS** | — |
-| DeviceProbe | — | — | — | — | NOT TESTED (installed) |
+| DeviceProbe | — | — | — | — | NOT TESTED (early build installed) |
 | Blender run normally (Apple's loader, reference only) | — | **PASS** (4.5.13) | **PASS** (5.2.2) | — | — |
 | Blender through MacBridge | — | — | — | — | — |
 
@@ -100,7 +100,7 @@ it is Blender running through MacBridge.** Details: [Blender research](docs/rese
   control the process itself. MacBridge would have to answer them for a loaded program. None is
   implemented.
 - **Preflight.** 23 capabilities: PASS 5, PARTIAL 8, UNKNOWN 5, NOT TESTED 3, BLOCKED 2. No overall verdict.
-- **Reference runs.** Run normally on an Apple Silicon Mac, Blender 5.2.2 printed its version (121 MiB peak),
+- **Reference runs.** Run normally on an Apple Silicon CI runner, Blender 5.2.2 printed its version (121 MiB peak),
   ran Python, rendered a small image with Cycles on the CPU, saved, reopened and rendered the file again. The
   29 bundled libraries it loaded were exactly the ones predicted.
 
@@ -111,7 +111,7 @@ Different suites in different environments. They are not added together.
 | Suite | Environment | Result | Date | Branch |
 |---|---|---|---|---|
 | Full Swift test suite | Intel Mac, macOS 26.5.2 | 469 passed, 0 failed | 2026-10-08 | Main development branch |
-| Portable subset | Cloud Linux, Swift 6.3.2 | 404 passed | 2026-10-09 | Research branch, not merged, not yet built on a Mac |
+| Portable subset | Cloud Linux, Swift 6.3.2 | 405 passed | 2026-10-09 | Research branch, not merged, not yet built on a Mac |
 
 ## Recent changes
 
@@ -119,9 +119,11 @@ Different suites in different environments. They are not added together.
 
 - Coverage-guided fuzzing found and fixed three defects that a crafted file could trigger in the
   inspector's decoders: two crashes and one severe slowdown. Each has a reproducer and a regression test.
-  The fixes are on a research branch and have not yet been built on a Mac, so they are not in the app yet.
+  A 20-minute re-run of the inspection fuzzer (286,237 runs) found no crash and no timeout; it showed one of
+  the same inputs was still slow in a library model the app does not use, which was fixed as well. The
+  fixes are on a research branch and have not yet been built on a Mac, so they are not in the app yet.
 - The ZIP importer was fuzzed for path escapes: none found in over 600,000 runs.
-- The portable part of the project builds and passes its tests on Linux (404 tests).
+- The portable part of the project builds and passes its tests on Linux (405 tests).
 - ARM64 thread-local entry code validated under an emulator.
 - This documentation was rebuilt. One public wording error was corrected: the load surface covers 47
   definitions, of which 39 are AppKit's, not "47 AppKit definitions". See
@@ -130,7 +132,7 @@ Different suites in different environments. They are not added together.
 **2026-10-08**
 
 - The research loader ran MacBridge's own test libraries on an Intel Mac, in four steps.
-- DeviceProbe was built and installed on the iPad (not run).
+- An early build of DeviceProbe was installed on the iPad (not run).
 - Blender 5.2.2's headless requirements were mapped symbol by symbol.
 
 The full history is in the [research journal](docs/journal.md).
@@ -138,7 +140,8 @@ The full history is in the [research journal](docs/journal.md).
 ## Next
 
 1. On a Mac: build and test the research branch, then merge it if everything passes.
-2. On the iPad: run DeviceProbe and publish its results with the device model and iPadOS build.
+2. On the iPad: rebuild and reinstall DeviceProbe from the research branch, run it, and publish its results
+   with the device model and iPadOS build.
 3. Owner decision: `NSColor`.
 
 The dependency-ordered plan is in [ROADMAP.md](ROADMAP.md).

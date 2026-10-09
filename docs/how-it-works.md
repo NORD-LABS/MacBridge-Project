@@ -52,8 +52,9 @@ For MacBridge, that would mean:
 - answering requests for things iPadOS does not have, such as parts of AppKit, with MacBridge's own code;
 - and keeping a careful record of every request that cannot be answered.
 
-MacBridge has worked this out on paper for Blender: for every one of the 1,453 system functions and objects
-a background start of Blender asks for, there is a recorded answer about who would provide it.
+MacBridge has worked this out on paper for Blender. For every one of the 1,453 system functions and objects
+a background start of Blender asks for, there is a recorded answer, and the answer is not always good: 38
+have no provider yet, and one is a conflict that still needs a decision.
 
 ## The rules of the iPad
 

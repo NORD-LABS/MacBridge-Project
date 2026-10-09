@@ -91,7 +91,7 @@ built on a stock iPad, and that will be published as the result.
 |---|---|
 | **Purpose** | Find every library a program will bring into memory, bundled or system. |
 | **Status** | BUILT. |
-| **Evidence** | For Blender 5.2.2, the predicted set of bundled libraries matched the libraries actually loaded when Blender ran normally on an Apple Silicon Mac: 29 of 29. |
+| **Evidence** | For Blender 5.2.2, the predicted set of bundled libraries matched the libraries actually loaded when Blender ran normally on an Apple Silicon CI runner: 29 of 29. |
 | **Limits** | Libraries loaded later by name, such as Python extension modules, are found by inventory rather than by the graph. |
 
 ### Readiness preflight
@@ -129,7 +129,7 @@ built on a stock iPad, and that will be published as the result.
 |---|---|
 | **Purpose** | Make the Objective-C classes a Mac program expects exist, through Apple's documented runtime API. |
 | **Status** | EXPERIMENTAL ON MAC. |
-| **Evidence** | The 47 macOS definitions Blender needs to load (39 of them AppKit's) are provided to MacBridge's own fixtures on the Mac and in the simulator. Removing any one of them stops loading. A class name that already exists in the process is refused, not replaced. |
+| **Evidence** | The 47 macOS definitions Blender needs to load (39 of them AppKit's) are provided to MacBridge's own fixtures on an Intel Mac and in the x86_64 iOS Simulator. Removing each in turn stops loading (44 of 44 cases). The research loader registers its own test classes through the documented API on an Intel Mac, and refuses a class name that already exists. |
 | **Limits** | Structure, not behaviour: these classes let a program load; they do not draw windows. `NSColor` collides with a UIKit class of the same name, and that decision is open. See [Objective-C research](research/objective-c.md). |
 
 ### Executable code on the iPad
