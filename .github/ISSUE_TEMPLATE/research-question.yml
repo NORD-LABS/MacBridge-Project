@@ -1,0 +1,17 @@
+name: Research question
+description: Ask about the approach, a claim, an assumption or a result.
+title: "Question: "
+labels: ["question"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Be as specific as you can. Link the page or claim it is about.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What you already know or have read, and why the answer matters to you.
