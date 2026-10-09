@@ -126,11 +126,9 @@ inferred. A few rules keep that honest:
 - MacBridge's own test program running is not Blender running.
 - A precise failure ("blocked by X, at step Y, on build Z") is a result worth publishing.
 
-Corrections happen in the open. An early analysis said Blender subclasses `NSWorkspace`; checking again
-showed `NSWindow`, `NSView` and `NSOpenGLView`, and the record was fixed. A test once passed an
-initializer check without any initializer running, because the compiler had precomputed the value. The
-fixture was rewritten so that the check can actually fail. Every correction so far is listed in
-[How results are established](docs/evidence.md#corrections).
+Corrections happen in the open. One example: an early analysis said Blender subclasses `NSWorkspace`;
+checking with a second tool showed `NSWindow`, `NSView` and `NSOpenGLView`, and the record was fixed.
+Every correction so far is listed in [How results are established](docs/evidence.md#corrections).
 
 <br>
 
