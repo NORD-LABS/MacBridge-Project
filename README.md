@@ -9,11 +9,11 @@
 <h3 align="center">Mac software. iPad hardware. Exploring the space between.</h3>
 
 <p align="center">
+  <a href="docs/introduction.md">Introduction</a> &nbsp;·&nbsp;
   <a href="STATUS.md">Status</a> &nbsp;·&nbsp;
   <a href="ROADMAP.md">Roadmap</a> &nbsp;·&nbsp;
-  <a href="#proof-over-promises">How results are proven</a> &nbsp;·&nbsp;
-  <a href="SECURITY.md">Security</a> &nbsp;·&nbsp;
-  <a href="LICENSE.md">License</a>
+  <a href="docs/README.md">Documentation</a> &nbsp;·&nbsp;
+  <a href="docs/faq.md">FAQ</a>
 </p>
 
 <br>
@@ -25,14 +25,15 @@ running it would take.
 
 > [!IMPORTANT]
 > **No macOS application has been shown running through MacBridge on an iPad, and Blender does not run
-> through MacBridge on any device.** Every result on this page names the environment it was measured in.
+> through MacBridge on any device.** What has run is MacBridge's own small test library (see First Contact
+> below). Every result on this page names the environment it was measured in.
 
 <br>
 
 ## The idea
 
 An iPad Air or iPad Pro is built on the same family of Apple Silicon chips as a Mac. Both run 64-bit ARM
-code; a small C program compiled for macOS and for iPadOS produces the same machine instructions. Yet a Mac
+code; a small C program compiled for macOS and for iPadOS comes out as the same instruction sequence. Yet a Mac
 app cannot be installed on an iPad. What separates them is software: different system libraries, a
 different windowing system, different rules for how code is loaded and signed.
 
@@ -49,60 +50,67 @@ security ([SECURITY.md](SECURITY.md)).
 
 <br>
 
+## First Contact
+
+<table>
+  <tr>
+    <td>
+      <b>2026-10-10 · Physical iPad Air (M3), iPadOS 27.0</b><br><br>
+      MacBridge's experimental loader ran <b>its own ARM64 test library, built for macOS</b>, on a physical
+      Apple Silicon iPad. It registered the library's code signature with the system, placed the code in
+      memory, connected every pointer and import with zero differences from its model, ran the library's
+      start-up code and called its functions: <code>42 · 30 · 6 · 8 · 1</code>, exactly as designed.
+      Apple's own loader refuses the same file as "incompatible platform". Thread-local variables also
+      worked through MacBridge's ARM64 entry code, its first run on Apple hardware. Each measurement was
+      run twice.<br><br>
+      <b>The limits are part of the result.</b> The test code was tiny, written by NORD LABS, and signed by
+      the same developer team as the app, which was a development build. No standalone macOS program, no
+      AppKit, no Blender, no other developer's code and no App Store or TestFlight build has run. No
+      protection was disabled or worked around: the system's signature registration and library-validation
+      checks were asked for and accepted the library, in this configuration.<br><br>
+      <a href="docs/research/first-contact.md">Read the First Contact report →</a>
+    </td>
+  </tr>
+</table>
+
+<br>
+
 ## Where things stand
+
+<sub>● measured &nbsp; ◐ experimental or partial &nbsp; ○ not yet demonstrated. Full detail in <a href="STATUS.md">STATUS.md</a>.</sub>
 
 <table>
   <tr><th align="left">&nbsp;</th><th align="left">Result</th><th align="left">Shown on</th></tr>
   <tr><td>●</td><td>MacBridge inspector app installed and used</td><td>Physical iPad Air (M3), iPadOS 27.0</td></tr>
   <tr><td>●</td><td>Inspection of macOS apps: Mach-O, bundles, signatures, entitlements, dependencies</td><td>Mac command line and the iPad app</td></tr>
-  <tr><td>●</td><td>MacBridge's own test libraries mapped, linked, initialized and called by MacBridge's research loader</td><td>Intel Mac, x86_64 builds</td></tr>
+  <tr><td>◐</td><td>MacBridge's own test libraries mapped, linked, initialized and called by MacBridge's research loader</td><td>Intel Mac (x86_64 builds); physical iPad (ARM64, single libraries, development build)</td></tr>
+  <tr><td>●</td><td>MacBridge's own ARM64 test library <em>built for macOS</em> run on an iPad by MacBridge's loader; Apple's loader refuses it</td><td>Physical iPad Air (M3), iPadOS 27.0, development signing, same-team signature</td></tr>
   <tr><td>●</td><td>Blender 5.2.2 (ARM64) analysed statically: every image, library link and imported system symbol</td><td>Static analysis</td></tr>
-  <tr><td>●</td><td>Blender's official build run normally, as a reference for what MacBridge must one day reproduce</td><td>Apple Silicon Mac, Apple's own loader, <em>not</em> MacBridge</td></tr>
-  <tr><td>◐</td><td>Experimental AppKit load surface: the definitions Blender needs just to load</td><td>Own test programs, Mac and iOS Simulator</td></tr>
-  <tr><td>◐</td><td>Capability probe for the iPad (memory limits, what an app may map and run of its own signed code)</td><td>Built and installed; <strong>not yet run</strong></td></tr>
-  <tr><td>○</td><td>Any macOS binary running through MacBridge on a physical iPad</td><td><strong>Not demonstrated</strong></td></tr>
+  <tr><td>●</td><td>Blender's official build run normally, as a reference for what MacBridge must one day reproduce</td><td>Apple Silicon CI runner and Intel Mac, Apple's own loader, <em>not</em> MacBridge</td></tr>
+  <tr><td>◐</td><td>Experimental load surface: the 47 macOS definitions, mostly AppKit's, that Blender needs just to load</td><td>Own test programs, Intel Mac and x86_64 iOS Simulator</td></tr>
+  <tr><td>●</td><td>Objective-C classes of MacBridge's own macOS-built test library registered, and their methods run, by MacBridge's loader</td><td>Physical iPad Air (M3), iPadOS 27.0, development signing, run twice</td></tr>
+  <tr><td>●</td><td>Capability probe for the iPad: memory, file limits, Apple's loader, MacBridge's loader on its own signed test code</td><td>Physical iPad Air (M3), iPadOS 27.0, run twice</td></tr>
+  <tr><td>○</td><td>A standalone macOS program, AppKit code, or any macOS application through MacBridge on an iPad</td><td><strong>Not demonstrated</strong></td></tr>
   <tr><td>○</td><td>Blender running through MacBridge</td><td><strong>Not demonstrated</strong>, on any device</td></tr>
 </table>
 
-<sub>● measured &nbsp; ◐ experimental or partial &nbsp; ○ not yet demonstrated. Full detail in <a href="STATUS.md">STATUS.md</a>.</sub>
 
 <br>
 
 ## What has been built
 
-**Inspector.** Reads macOS apps without running them: thin and universal Mach-O files (arm64, arm64e,
-x86_64), load commands, code signatures and entitlements, nested helpers and extensions. Runs on the Mac
-and inside the iPad app.
+| Part | What exists today |
+|---|---|
+| **Inspector** | Reads macOS apps without running them: thin and universal Mach-O, load commands, code signatures, entitlements, nested helpers. Runs on the Mac and inside the iPad app. |
+| **Dependency analysis** | The full graph of bundled and system libraries. For a headless Blender start: 26 macOS system libraries, each mapped to an iPadOS library, a stand-in, or a recorded conflict. |
+| **Symbol routing** | A provider for each of the 1,453 system symbols a headless start imports: 1,368 exist on iPadOS by name, 46 would come from MacBridge, 38 are unresolved lazy functions, and 1, `NSColor`, is an open conflict with UIKit. |
+| **Fixup decoding** | Agrees exactly with LLVM's `llvm-objdump` on all 195 of Blender's images that carry fixups, about 1.2 million of them. |
+| **Objective-C research** | Blender's own classes parsed and checked against Apple's tools. MacBridge's own test classes registered through the documented runtime API on an Intel Mac; a name that already exists is refused, not replaced. |
+| **Load surface** | The 47 definitions Blender needs just to *load*, 39 of them from AppKit. Removing each in turn stopped loading (44 of 44 cases, Intel Mac and x86_64 simulator). Structure, not an implementation of AppKit. |
+| **Research loader** | On an Intel Mac, maps MacBridge's own test libraries, applies fixups, coalesces weak symbols, sets up thread-local variables, registers Objective-C classes, runs initializers and calls functions. Memory after fixups matches the model byte for byte. On a physical iPad, the same work for single own ARM64 libraries (iOS-built and macOS-built) and thread-local variables, under development signing. Not yet Objective-C or several libraries on the iPad, never on Blender. |
+| **Original fixtures** | Small C, C++ and Objective-C programs written for MacBridge, each built so that one result depends on one loader step. No Apple or Blender code is redistributed. |
 
-**Dependency analysis.** Builds the full graph of bundled and system libraries. For a headless Blender
-start that means 26 macOS system libraries, all strongly linked, each mapped to an iPadOS library, a
-stand-in MacBridge would have to provide, or a recorded conflict.
-
-**Symbol routing.** Each of the 1,453 system symbols a headless Blender start imports has an assigned
-provider: 1,368 exist in iPadOS under the same name, 46 come from MacBridge's compatibility layer, 38 are
-explicitly unresolved. One is a genuine conflict: UIKit already defines a class called `NSColor`. That
-decision is recorded as open rather than quietly resolved.
-
-**Fixup decoding.** Before code can run, every pointer in it has to be adjusted for where it was loaded.
-MacBridge's decoder agrees exactly with LLVM's `llvm-objdump` on all 195 of Blender's images that carry
-such fixups, about 1.2 million of them.
-
-**Objective-C research.** Blender's own classes (subclasses of `NSWindow`, `NSView` and `NSOpenGLView`)
-are parsed and checked against Apple's tools. Classes are registered through the documented Objective-C
-runtime API, and a class name that already exists in the process is refused instead of silently replaced.
-
-**Experimental AppKit shim.** Provides the 47 AppKit definitions Blender needs just to *load*. Every one is
-necessary: removing any single definition stops loading. It is a structural surface, not an
-implementation of AppKit.
-
-**Original test fixtures.** Small C, C++ and Objective-C libraries written for MacBridge, each designed so
-that one result depends on exactly one loader step. No Apple or Blender code is redistributed.
-
-**Experimental loader.** On an Intel Mac, MacBridge maps its own test libraries into memory, applies their
-fixups, coalesces weak symbols across libraries, sets up thread-local variables, registers Objective-C
-classes, runs initializers and calls their functions. After fixups, memory matches the analysis model byte
-for byte. This is research code for MacBridge's own fixtures; it has not run Blender, ARM64 code, or
-anything on an iPad.
+Each of these is explained, with its evidence and limits, in [Architecture](docs/architecture.md).
 
 <br>
 
@@ -115,7 +123,7 @@ Silicon iPad**. It is a direction for the research, not a feature.
 - **It is ARM64-native.** No x86 translation is involved, so the work stays focused on the operating system.
 - **It is demanding.** One application exercises nearly everything a compatibility layer must provide:
   files, heavy multithreading, an embedded Python interpreter, windows, input and GPU rendering through Metal.
-- **It is honest to measure.** Blender either starts, runs Python, renders and saves, or it doesn't.
+- **It is measurable.** Blender either starts, runs Python, renders and saves, or it doesn't.
 
 <table>
   <tr><th align="left">&nbsp;</th><th align="left">Milestone on a physical iPad</th><th align="left">What would prove it</th></tr>
@@ -129,7 +137,8 @@ Silicon iPad**. It is a direction for the research, not a feature.
   <tr><td>○</td><td>Metal</td><td>GPU drawing and rendering through the iPad's GPU</td></tr>
 </table>
 
-Each stage has to be shown on its own. Reaching one does not imply the next.
+Each stage has to be shown on its own. Reaching one does not imply the next. How Blender is being studied,
+and what was found: [Blender research](docs/research/blender.md).
 
 <br>
 
@@ -145,10 +154,9 @@ inferred. A few rules keep that honest:
 - MacBridge's own test program running is not Blender running.
 - A precise failure ("blocked by X, at step Y, on build Z") is a result worth publishing.
 
-Corrections happen in the open. An early analysis said Blender subclasses `NSWorkspace`; checking again
-showed `NSWindow`, `NSView` and `NSOpenGLView`, and the record was fixed. A test once passed an
-initializer check without any initializer running, because the compiler had precomputed the value. The
-fixture was rewritten so that the check can actually fail.
+Corrections happen in the open. One example: an early analysis said Blender subclasses `NSWorkspace`;
+checking with a second tool showed `NSWindow`, `NSView` and `NSOpenGLView`, and the record was fixed.
+Every correction so far is listed in [How results are established](docs/evidence.md#corrections).
 
 <br>
 
@@ -160,7 +168,7 @@ operating system. The diagram shows the major parts and how far each has come.
 ```mermaid
 flowchart TB
     app["Unmodified macOS app<br/>ARM64 Mach-O, e.g. Blender"]
-    subgraph ipad["One MacBridge app process on iPad"]
+    subgraph ipad["MacBridge app on iPad"]
         inspect["Inspector<br/>reads the app, never runs it"]
         preflight["Readiness model<br/>met · blocked · unknown"]
         loader["Loader<br/>maps, fixes up, initializes"]
@@ -186,45 +194,61 @@ flowchart TB
     class inspect,preflight built
     class loader,routing,objc,shims research
     class window,metal planned
+    style ipad fill:transparent,stroke:#8a9099
 ```
 
 <sub><b>Navy, solid</b>: built and tested, including on iPad. <b>Graphite, dashed</b>: research code and
-models validated on a Mac or statically, not yet on an iPad. <b>Outline only</b>: planned.</sub>
+models validated on a Mac or statically; the loader has also run MacBridge's own test libraries on an iPad.
+<b>Outline only</b>: planned. Subsystem by
+subsystem: <a href="docs/architecture.md">Architecture</a>.</sub>
 
 <br>
 
 ## Roadmap
 
-| | |
-|---|---|
-| **Completed** | Inspector on Mac and iPad · dependency graph · runtime capability model · Blender 5.2.2 static analysis · symbol and library routing · fixup decoding · reference runs of Blender on Macs |
-| **Experimental** | Research loader for MacBridge's own fixtures (Mac only) · AppKit load surface · Objective-C registration · iPad capability probe (built, not yet run) |
-| **Not yet demonstrated** | Any macOS code running through MacBridge on an iPad · Blender through MacBridge, at any stage |
-| **Future** | Windows and input · Metal graphics · Blender's interface and viewport |
+| | Phase | Status |
+|---|---|---|
+| 0–1 | Foundations · Inspection | **Complete**, inspector tested on a physical iPad |
+| 2 | Static compatibility mapping for Blender 5.2.2 | **Active**, nearly complete |
+| 3–4 | Original compatibility components · Host execution research | **Experimental**, Mac and simulator; loader steps also on the iPad |
+| 5 | Physical-iPad feasibility (DeviceProbe) | **Active**, first positive measurements: own same-team-signed libraries run under development signing |
+| 6 | First original ARM64 macOS program on an iPad | **Active**, a macOS-built test *library* has run; a standalone program has not |
+| 7–8 | Headless runtime · Blender headless | Not started |
+| 9–11 | Windows and input · Metal · Usability | Not started |
 
-No dates and no percentages: each step ends when there is a recorded result, positive or negative. The
-dependency-ordered plan is in [ROADMAP.md](ROADMAP.md).
+Phase 5 is a gate: its answer decides whether everything after it is possible on a stock iPad. First
+Contact opened it for MacBridge's own code; code signed by other developers and distribution builds are
+still open. No dates
+and no percentages; each phase ends with a recorded result, positive or negative. Definitions of done,
+dependencies and risks: [ROADMAP.md](ROADMAP.md).
 
 <br>
 
 ## Go deeper
 
-- [STATUS.md](STATUS.md): the current facts, what the measurements say, and the Blender readiness findings.
-- [ROADMAP.md](ROADMAP.md): milestones in the order they depend on each other, with what "done" means for each.
-- [SECURITY.md](SECURITY.md): the research boundaries the project will not cross.
-- [Project history](https://github.com/NORD-LABS/MacBridge-Project/commits/main): each published finding, dated.
+| For | Read |
+|---|---|
+| New here | [Introduction](docs/introduction.md) · [How it works, in plain language](docs/how-it-works.md) · [FAQ](docs/faq.md) |
+| Engineers | [Technical concepts](docs/concepts.md) · [Architecture](docs/architecture.md) · [The experimental loader](docs/research/loader.md) · [Objective-C](docs/research/objective-c.md) · [DeviceProbe](docs/research/device-probe.md) |
+| Evidence | [Status](STATUS.md) · [How results are established](docs/evidence.md) · [Verified facts](docs/facts.md) · [Research journal](docs/journal.md) |
+| Everything | [Documentation index](docs/README.md) · [Glossary](docs/glossary.md) |
 
 The implementation lives in a separate private NORD LABS repository. Findings that are safe to publish
-land here.
+land here. Questions and corrections are welcome: see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 <br>
 
 ## About
 
+<img src="media/app-icon-256.png" width="72" height="72" align="right" alt="The MacBridge app icon: a Mac and an iPad joined by a bridge.">
+
 MacBridge is an independent project led by **Théodore Beaupré** under **NORD LABS**. It grew out of a
 simple observation: the iPad on the desk and the Mac beside it share the same kind of processor, yet what
-each one can run is decided by something else. Much of the engineering is done with AI coding agents,
-held to the same evidence rules as everything else on this page.
+each one can run is decided by something else.
+
+The project is directed by its creator. Much of the implementation and research is done with AI coding
+agents, and their work is held to the same rule as everything else here: it counts when it is backed by a
+reproducible result, and not before.
 
 MacBridge is not affiliated with, endorsed by, or supported by Apple Inc. or the Blender Foundation.
 

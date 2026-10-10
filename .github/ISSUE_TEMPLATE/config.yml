@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security concern
+    url: https://github.com/NORD-LABS/MacBridge-Project/blob/main/SECURITY.md
+    about: Anything that could help bypass a platform protection, or exposes information that should not be public. Please do not open a public issue.

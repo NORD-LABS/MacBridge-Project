@@ -1,0 +1,40 @@
+name: Documentation correction
+description: Something in this repository is wrong, unclear, outdated, contradictory, or a link or image is broken.
+title: "Docs: "
+labels: ["documentation"]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Where
+      description: File and section, or a link to the line.
+      placeholder: STATUS.md, "Blender readiness"
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: What it says now
+      description: Quote the exact text.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed
+    attributes:
+      label: What it should say, and why
+      description: If you have a source (Apple documentation, published source code, a measurement), link it.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of problem
+      options:
+        - Factual error
+        - Unclear or misleading wording
+        - Contradiction between pages
+        - Broken link or image
+        - Visual or rendering problem (say which theme and device)
+        - Other
+    validations:
+      required: true

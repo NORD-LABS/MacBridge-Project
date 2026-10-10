@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="330" viewBox="0 0 1200 330" role="img" aria-labelledby="t d">
+  <title id="t">Where MacBridge results come from</title>
+  <desc id="d">Five environments from left to right: Cloud Linux, Intel Mac, Apple Silicon Mac, iOS Simulator and physical iPad. Each one can show something different, and none stands in for another. Only the physical iPad can answer whether MacBridge works on an iPad; so far it has two results: the inspector app, and MacBridge's loader running its own test libraries (First Contact, 2026-10-10).</desc>
+  <style>
+    .h { font: 600 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Helvetica, Arial, sans-serif; letter-spacing: 1.6px; fill: #F4F6F8; }
+    .b { font: 400 15px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Helvetica, Arial, sans-serif; fill: #8A9099; }
+    .n { font: 500 13px ui-monospace, "SF Mono", Menlo, Consolas, monospace; fill: #8A9099; }
+    .a { font: 500 13px ui-monospace, "SF Mono", Menlo, Consolas, monospace; fill: #6E9BFF; }
+    .cap { font: 600 15px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Helvetica, Arial, sans-serif; letter-spacing: 3px; fill: #8A9099; }
+  </style>
+  <text class="cap" x="30" y="38">WHERE RESULTS COME FROM</text>
+  <rect x="30" y="70" width="212" height="190" rx="14" fill="#161B22" stroke="#3A404A" stroke-width="1.5"/>
+  <text class="h" x="50" y="108">CLOUD LINUX</text>
+  <text class="b" x="50" y="148">Portable code builds</text>
+  <text class="b" x="50" y="172">Fuzzing</text>
+  <text class="b" x="50" y="196">ARM64 under emulation</text>
+  <text class="n" x="50" y="238">Not Darwin</text>
+  <rect x="262" y="70" width="212" height="190" rx="14" fill="#161B22" stroke="#3A404A" stroke-width="1.5"/>
+  <text class="h" x="282" y="108">INTEL MAC</text>
+  <text class="b" x="282" y="148">Tools and tests</text>
+  <text class="b" x="282" y="172">Research loader</text>
+  <text class="b" x="282" y="196">x86_64 fixtures</text>
+  <text class="n" x="282" y="238">Not ARM64</text>
+  <rect x="494" y="70" width="212" height="190" rx="14" fill="#161B22" stroke="#3A404A" stroke-width="1.5"/>
+  <text class="h" x="514" y="108">APPLE SILICON MAC</text>
+  <text class="b" x="514" y="148">ARM64 builds</text>
+  <text class="b" x="514" y="172">Blender reference</text>
+  <text class="b" x="514" y="196">runs (Apple's loader)</text>
+  <text class="n" x="514" y="238">Not iPadOS</text>
+  <rect x="726" y="70" width="212" height="190" rx="14" fill="#161B22" stroke="#3A404A" stroke-width="1.5"/>
+  <text class="h" x="746" y="108">iOS SIMULATOR</text>
+  <text class="b" x="746" y="148">iPadOS libraries</text>
+  <text class="b" x="746" y="172">Platform checks</text>
+  <text class="b" x="746" y="196">on the Mac's kernel</text>
+  <text class="n" x="746" y="238">Not the device</text>
+  <rect x="958" y="70" width="212" height="190" rx="14" fill="#16233F" stroke="#6E9BFF" stroke-width="2.5"/>
+  <text class="h" x="978" y="108">PHYSICAL iPAD</text>
+  <text class="b" x="978" y="148">The only place</text>
+  <text class="b" x="978" y="172">the central question</text>
+  <text class="b" x="978" y="196">can be answered</text>
+  <text class="a" x="978" y="222">Inspector: PASS</text>
+  <text class="a" x="978" y="244">Own loader: PASS</text>
+  <path d="M30 296 H1156" stroke="#3A404A" stroke-width="1.5" fill="none"/>
+  <path d="M1156 290 L1170 296 L1156 302" fill="none" stroke="#3A404A" stroke-width="1.5" stroke-linejoin="round"/>
+  <text class="n" x="30" y="320">closer to the question that matters  ·  a result in one column is never copied to another</text>
+</svg>

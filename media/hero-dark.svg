@@ -26,6 +26,6 @@
     <path d="M870 196 V224 M894 180 V224 M918 168 V224" stroke="#6E9BFF" stroke-width="1.6"/>
     <path d="M964 168 V224 M988 180 V224 M1012 196 V224" stroke="#3A404A" stroke-width="1.6" stroke-dasharray="3 5"/>
   </g>
-  <text class="tiny" x="652" y="262">macOS · arm64</text>
-  <text class="tiny" x="1036" y="276">iPadOS · arm64</text>
+  <text class="tiny" x="652" y="272">macOS · arm64</text>
+  <text class="tiny" x="1036" y="272">iPadOS · arm64</text>
 </svg>

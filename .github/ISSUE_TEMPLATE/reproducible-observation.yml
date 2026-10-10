@@ -1,0 +1,47 @@
+name: Reproducible observation
+description: Share something you measured that is relevant to MacBridge's research.
+title: "Observation: "
+labels: ["observation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for measuring something. Please do **not** include device identifiers (serial numbers, UDIDs, ECIDs), account names, certificates, provisioning profiles or any other secret. Anything that describes a way around a platform protection belongs in a private report (see SECURITY.md), not here.
+  - type: textarea
+    id: steps
+    attributes:
+      label: What you did
+      description: Step by step, so someone else could repeat it.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: What you expected, and what happened
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Device model (not its identifier), OS version and build, tools and versions.
+      placeholder: iPad Air 11-inch (M3), iPadOS 27.0 (24A…), Xcode 26.5
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: How was this established?
+      options:
+        - Measured (I ran it and recorded the output)
+        - Known (documentation or published source code; link it)
+        - Inferred (reasoned from other results)
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Boundaries
+      options:
+        - label: This involved only my own code or publicly documented behaviour, on my own device, without bypassing any platform protection.
+          required: true
