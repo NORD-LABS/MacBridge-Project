@@ -24,6 +24,7 @@ something its record does not.
 | F-IPAD-DLOPEN | Apple's loader on the iPad loads MacBridge's iPadOS-built test library and refuses the same source built for macOS with "incompatible platform". | Physical iPad | MEASURED | PASS | Same | 2026-10-10 |
 | F-FIRST-CONTACT | MacBridge's research loader registered the code signature of MacBridge's own ARM64 test library, passed the system's library-validation check, mapped it, applied fixups with 0 differences from its model, ran its initializer and called its functions with the expected results 42, 30, 6, 8, 1, for the iPadOS build and for the macOS build. The libraries were original NORD LABS C code, signed by the same development team as the app, in a development build with `get-task-allow`. | Physical iPad | MEASURED | PASS (own same-team-signed libraries, development build) | Same | 2026-10-10 |
 | F-IPAD-TLV | Thread-local variables of MacBridge's own test library worked through MacBridge's ARM64 entry code: 3 descriptors, 0 unexpected memory differences, the self-check passed. | Physical iPad | MEASURED | PASS | Same | 2026-10-10 |
+| F-IPAD-OBJC | MacBridge's research loader registered the two Objective-C classes of MacBridge's own ARM64 test library built for macOS, through the documented runtime API, and their methods ran (self-check 1); class names already present in the process were refused; with one registration step deliberately omitted, the app stopped at the first message ("does not recognize selector"). Same signing conditions as F-FIRST-CONTACT. | Physical iPad | MEASURED (2 runs per launch) | PASS (own library) | Evidence ledger, raw output lines and crash-report summary; DeviceProbe built at `7c66aad` | 2026-10-10 |
 | F-IPAD-ANON-EXEC | Asking the system to make an anonymous memory page readable and executable returned success, but no code was run from it. What it allows is unknown. | Physical iPad, development build | MEASURED (call result only) | UNKNOWN | Same | 2026-10-10 |
 | F-NO-DEVICE-EXEC | No macOS application, no standalone macOS program (`MH_EXECUTE`), no AppKit code and no code signed by another developer has been shown running through MacBridge on a physical iPad. *Superseded wording (2026-10-09): "No macOS binary has been shown running…"; a macOS-built test library has now run (F-FIRST-CONTACT).* | Physical iPad | n/a | NOT DEMONSTRATED | Evidence matrix | 2026-10-10 |
 | F-NO-BLENDER | Blender has not been run through MacBridge, at any stage, on any device. | All | n/a | NOT DEMONSTRATED | Evidence matrix | 2026-10-09 |
@@ -60,6 +61,7 @@ running through MacBridge.
 
 | ID | Public wording | Environment | Kind | Source record | Last verified |
 |---|---|---|---|---|---|
+| F-TESTS-MAC-NS2 | 487 automated tests passed, 0 failures; separately, 487 passed under AddressSanitizer with no report. | Intel Mac, macOS 26.5.2, Xcode 26.5, research branch (Objective-C milestone), 2026-10-10 | MEASURED | Evidence ledger and committed log | 2026-10-10 |
 | F-TESTS-MAC | 485 automated tests passed, 0 failures. | Intel Mac, macOS 26.5.2, Xcode 26.5, research branch (First Contact), 2026-10-09; re-run green at the published head, 2026-10-10 | MEASURED | Evidence ledger and committed log | 2026-10-10 |
 | F-TESTS-ASAN | 481 automated tests passed under AddressSanitizer, with no memory-error report. | Intel Mac, same toolchain, research branch at a slightly earlier commit, 2026-10-09 | MEASURED | Evidence ledger and committed log | 2026-10-10 |
 | F-TESTS-MAC-EARLIER | 469 automated tests passed, 0 failures. | Intel Mac, macOS 26.5.2, main development branch, 2026-10-08 | MEASURED | Autonomy notes | 2026-10-09 |
@@ -69,9 +71,12 @@ running through MacBridge.
 
 ## Wording this documentation avoids
 
-- A combined test total (485, 481, 469 and 405 are different suites, environments or commits).
+- A combined test total (487, 485, 481, 469 and 405 are different suites, environments or commits).
 - Any completion percentage.
 - "Runs on iPad" about anything except the inspector app itself and, precisely worded, MacBridge's own test
   libraries (F-FIRST-CONTACT). Never "macOS apps run on iPad".
-- "Bypass", "jailbreak" or "unlock" for First Contact: the system's own signature checks were applied and passed.
+- "Bypass", "jailbreak" or "unlock" for First Contact: no protection was disabled or worked around; the
+  signature registration and library-validation checks accepted the same-team-signed library in a
+  development build. Apple's loader's platform check is a separate mechanism, which MacBridge's loader does
+  not consult. Do not claim that every applicable policy permits this in other configurations.
 - "Blender support", "compatible with Blender" or similar.

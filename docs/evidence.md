@@ -70,6 +70,7 @@ Automated test counts come from different suites in different environments. They
 
 | Suite | Environment | Count | Date | Branch |
 |---|---|---|---|---|
+| Full Swift test suite | Intel Mac, macOS 26.5.2, Xcode 26.5 | 487 passing, 0 failures; 487 under AddressSanitizer, no report (separate run) | 2026-10-10 | Research branch (Objective-C milestone), pull request open |
 | Full Swift test suite | Intel Mac, macOS 26.5.2, Xcode 26.5 | 485 passing, 0 failures | 2026-10-09 | Research branch (First Contact), pull request open |
 | Full suite under AddressSanitizer | Intel Mac, same | 481 passing, 0 memory-error reports | 2026-10-09 | Same branch, earlier commit |
 | Portable subset (the parts that build without Apple frameworks) | Cloud Linux, Swift 6.3.2 | 405 passing, as reported; the committed log (earlier commit) shows 399 | 2026-10-09 | Research branch; 405 not re-verified |

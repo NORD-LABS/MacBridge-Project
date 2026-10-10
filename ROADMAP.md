@@ -173,7 +173,8 @@ Four tracks run alongside every phase:
 | **Prerequisites** | Phase 5 shows a legitimate route. Shown for own same-team-signed code under development signing. |
 | **Evidence required** | Output captured on a named device and iPadOS build. |
 | **Success criteria** | A "hello world", then programs that use files, threads and Foundation, run and exit cleanly. |
-| **Next steps, in order** | Objective-C test classes on the iPad · several dependent test libraries with symbol resolution · a first minimal own `MH_EXECUTE` (entry point, arguments, exit) · distribution signing · another team's signature. |
+| **Done so far** | A macOS-built test library ran (First Contact); Objective-C classes of a macOS-built test library were registered and their methods ran (2026-10-10). |
+| **Next steps, in order** | Several dependent test libraries with symbol resolution · a first minimal own `MH_EXECUTE` (**deferred** pending an owner security and feasibility review) · distribution signing · another team's signature. |
 | **Main blocker** | For MacBridge's own code: none measured so far. For code signed by someone else, such as Blender: whether it can legitimately become executable inside MacBridge's process, untested. |
 
 The first executed macOS-built library is a real step. It is not yet the program-level result this phase
@@ -253,5 +254,5 @@ separately.
 | **Cloud** | Documentation; fuzzing; execution-free models that need no Apple tools, such as how Blender finds its Python resources, and a load-time routing table. |
 | **Intel Mac** | Build the next DeviceProbe groups; keep the full suite green. |
 | **Apple Silicon Mac** | Build and run the research loader with ARM64 fixtures; Python resource experiments on the canonical Blender build. |
-| **Physical iPad** | In order: Objective-C test classes; several dependent test libraries; a first minimal own `MH_EXECUTE`; a distribution-signed build; a test library signed by another team. Then larger runtime services, and eventually a headless Blender start. |
+| **Physical iPad** | In order: several dependent test libraries; a first minimal own `MH_EXECUTE` (deferred until the owner's review); a distribution-signed build; a test library signed by another team. Then larger runtime services, and eventually a headless Blender start. |
 | **Owner decision** | Whether and when to merge the research branch. The `NSColor` approach. |

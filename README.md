@@ -65,8 +65,9 @@ security ([SECURITY.md](SECURITY.md)).
       run twice.<br><br>
       <b>The limits are part of the result.</b> The test code was tiny, written by NORD LABS, and signed by
       the same developer team as the app, which was a development build. No standalone macOS program, no
-      AppKit, no Blender, no other developer's code and no App Store or TestFlight build has run. Nothing
-      was bypassed: the system's signature checks were applied and passed.<br><br>
+      AppKit, no Blender, no other developer's code and no App Store or TestFlight build has run. No
+      protection was disabled or worked around: the system's signature registration and library-validation
+      checks were asked for and accepted the library, in this configuration.<br><br>
       <a href="docs/research/first-contact.md">Read the First Contact report →</a>
     </td>
   </tr>
@@ -87,6 +88,7 @@ security ([SECURITY.md](SECURITY.md)).
   <tr><td>●</td><td>Blender 5.2.2 (ARM64) analysed statically: every image, library link and imported system symbol</td><td>Static analysis</td></tr>
   <tr><td>●</td><td>Blender's official build run normally, as a reference for what MacBridge must one day reproduce</td><td>Apple Silicon CI runner and Intel Mac, Apple's own loader, <em>not</em> MacBridge</td></tr>
   <tr><td>◐</td><td>Experimental load surface: the 47 macOS definitions, mostly AppKit's, that Blender needs just to load</td><td>Own test programs, Intel Mac and x86_64 iOS Simulator</td></tr>
+  <tr><td>●</td><td>Objective-C classes of MacBridge's own macOS-built test library registered, and their methods run, by MacBridge's loader</td><td>Physical iPad Air (M3), iPadOS 27.0, development signing, run twice</td></tr>
   <tr><td>●</td><td>Capability probe for the iPad: memory, file limits, Apple's loader, MacBridge's loader on its own signed test code</td><td>Physical iPad Air (M3), iPadOS 27.0, run twice</td></tr>
   <tr><td>○</td><td>A standalone macOS program, AppKit code, or any macOS application through MacBridge on an iPad</td><td><strong>Not demonstrated</strong></td></tr>
   <tr><td>○</td><td>Blender running through MacBridge</td><td><strong>Not demonstrated</strong>, on any device</td></tr>

@@ -33,8 +33,19 @@ result.
 | Repetition | Each group of measurements was run twice, with identical results. |
 | Source | Private implementation repository; DeviceProbe built at commit `e5d0972` on a research branch, results recorded in its evidence ledger with the raw output lines. |
 
-Nothing was disabled or worked around. The system's code-signing and library-validation checks were
-applied and passed, because the code carried a valid signature from the same team as the app. See
+No security setting was changed and no protection was disabled or worked around. Several different
+mechanisms are involved, and they should not be confused:
+
+| Mechanism | What was observed in this experiment |
+|---|---|
+| Apple's loader checking a file's declared platform | Refused the macOS-built library ("incompatible platform"). MacBridge's loader does not ask Apple's loader to load the file, so this check is not consulted. |
+| Registering the file's code signature with the system | Accepted, for files signed by the same developer team as the app. |
+| Library validation (does this process accept this signer?) | Reported as allowed, for the same-team signature. |
+| The app sandbox | Unchanged. The libraries were files inside the app's own bundle. |
+| Development-only entitlement (`get-task-allow`) | Present, because this was a development build. Whether a distribution build behaves the same has **not** been tested. |
+
+These observations cover only this device, build, signing setup and test code. They do not establish
+that every applicable policy would permit the same behaviour in other conditions. See
 [SECURITY.md](../../SECURITY.md).
 
 ## What was measured
@@ -98,14 +109,21 @@ hardware.
 
 Before this run, the project's deciding question was whether MacBridge's loader could work on an iPad at all,
 inside the platform's rules. For MacBridge's own, same-team-signed code under development signing, the
-answer is now yes, measured. Code built for macOS was not refused by the system's security checks, only by
-Apple's loader's platform check, which MacBridge's loader does not apply.
+answer is now yes, measured, in this configuration. The signature and library-validation checks that
+MacBridge's loader asks for accepted the macOS-built library; Apple's loader's platform check refuses it,
+and MacBridge's loader does not consult that check. How other configurations behave is unknown.
 
 The larger questions are still open, and the next experiments are chosen to answer them one at a time.
 
+## Follow-up: Objective-C on the same iPad
+
+Later the same day, under the same conditions, the loader registered the classes of a small Objective-C test
+library built for macOS and their methods ran: the self-check returned 1 in two runs, and a deliberately
+broken variant failed as it should. Details: [Objective-C research](objective-c.md#objective-c-on-a-physical-ipad-2026-10-10).
+
 ## Next experiments
 
-1. Objective-C test classes through the loader on the iPad.
+1. ~~Objective-C test classes through the loader on the iPad.~~ Done for one own library (see above).
 2. Several test libraries that depend on each other, with symbol resolution between them.
 3. A first minimal macOS program (`MH_EXECUTE`), MacBridge's own.
 4. The difference that distribution signing makes.

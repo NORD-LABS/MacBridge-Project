@@ -49,6 +49,26 @@ not by writing into the runtime's private data. When a class with the same name 
 process, the loader **refuses** to register a second one, instead of silently replacing it. Silent
 replacement would make two parts of the process disagree about which class a name refers to.
 
+## Objective-C on a physical iPad (2026-10-10)
+
+On the iPad Air 11-inch (M3), iPadOS 27.0, in the same development build used for
+[First Contact](first-contact.md), MacBridge's loader took a small Objective-C test library that MacBridge
+wrote and **built for macOS** (ARM64), registered its two classes, a class and its subclass, through the
+documented runtime functions, and then sent them **real messages**: creating objects, calling instance and
+class methods, reading instance variables, and calling a superclass method from the subclass. The test's
+self-check returned 1. Each launch ran twice.
+
+| Check | Result |
+|---|---|
+| Classes registered, superclass first | `MBGreeter`, then `MBLoud` |
+| Memory compared with the model | 0 unexpected differences |
+| Methods actually executed | Yes: the self-check depends on each call's return value |
+| A class name the process already has | Refused, never replaced (MacBridge's own class loaded twice; and `NSProcessInfo`) |
+| Negative control: one registration step deliberately left out | The app stopped at the first message, with "does not recognize selector", as expected |
+
+The library was MacBridge's own code, signed by the same developer team as the app. Not covered yet:
+`+load` methods, categories, and classes that depend on Foundation or AppKit.
+
 ## The open question: `NSColor`
 
 MacBridge would run inside an iPad app, which means inside a process where UIKit is already loaded. Every
@@ -82,7 +102,7 @@ is wrong:
 - one omission per definition, to show that each of the 47 is required.
 
 None of these programs is Blender, and none of them ran on an iPad. They establish the *structure* a
-loader must provide. Whether Blender then behaves correctly is a separate question that only execution can
+loader must provide. (The separate test library above did run on an iPad; the AppKit load surface has not.) Whether Blender then behaves correctly is a separate question that only execution can
 answer.
 
 ---

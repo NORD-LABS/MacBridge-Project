@@ -12,6 +12,17 @@ differ, the entry says so.
 
 ## October 2026
 
+### 2026-10-10: Objective-C methods run on the iPad
+
+Under the same conditions as First Contact, MacBridge's loader registered the two classes of a small
+Objective-C test library built for macOS and sent them real messages; the self-check returned 1 in both
+runs. Names already in the process were refused. A variant with one registration step left out stopped at
+the first message, "does not recognize selector", confirming the check is not blind. On the Mac, 487
+tests pass, and 487 under AddressSanitizer. Details: [Objective-C research](research/objective-c.md#objective-c-on-a-physical-ipad-2026-10-10).
+
+Work on a standalone macOS program (`MH_EXECUTE`) is deferred until the owner has reviewed its security
+and feasibility.
+
 ### 2026-10-10: First Contact
 
 DeviceProbe ran on a physical iPad Air 11-inch (M3), iPadOS 27.0, as a development build, in three groups
@@ -151,8 +162,10 @@ of the cloud session's fixes passes on an Intel Mac.
 
 **Still open:**
 
-1. Do Objective-C classes, and several dependent libraries, work through the loader on the iPad?
-2. Can a minimal standalone macOS program (`MH_EXECUTE`) be started this way?
+1. Do several dependent libraries work through the loader on the iPad? (Objective-C classes of one own
+   library do, since 2026-10-10.)
+2. Can a minimal standalone macOS program (`MH_EXECUTE`) be started this way? Deferred pending an owner
+   review.
 3. Does a distribution build (App Store, TestFlight) behave the same as a development build?
 4. Could code signed by another developer, such as Blender's, legitimately become executable inside
    MacBridge's process?

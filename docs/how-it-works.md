@@ -39,8 +39,9 @@ anything runs. That refusal is a deliberate check, and MacBridge does not try to
 
 So MacBridge needs its own loader, one that prepares a Mac program inside the MacBridge app. That loader
 exists today as research code. It works with small test libraries on a Mac and, since October 2026, on a
-real iPad, where it ran a small test library that MacBridge built for macOS. The iPad's own security checks
-still applied: the library had to carry a valid signature from the same developer as the app, and it did.
+real iPad, where it ran a small test library that MacBridge built for macOS. The iPad's signature checks
+were still asked for and accepted the library, which carried a valid signature from the same developer as
+the app, in a development build. Other conditions have not been tested.
 
 ## A compatibility layer
 

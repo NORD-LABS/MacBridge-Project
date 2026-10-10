@@ -36,6 +36,7 @@ Every result below names the environment it was measured in. Definitions of the 
 | ARM64 thread-local entry code keeps its register contract on four threads | Cloud Linux, under the QEMU emulator | Emulated; not Darwin, not Apple hardware. |
 | **First Contact:** MacBridge's loader registers the code signature of its own ARM64 test library, maps it, applies fixups (0 differences from the model), runs its initializer and calls it (42, 30, 6, 8, 1) — the iPadOS build **and the macOS build**, which Apple's loader refuses | Physical iPad Air 11-inch (M3), iPadOS 27.0; run twice | Own tiny C library; same development team as the app; development build with `get-task-allow`. Not a standalone program, not AppKit, not Blender. |
 | Thread-local variables through MacBridge's ARM64 entry code: 3 descriptors, 0 unexpected differences, self-check passed | Physical iPad Air 11-inch (M3), iPadOS 27.0; run twice | First run on Apple hardware; one own library, two threads. |
+| Objective-C classes of MacBridge's own macOS-built test library registered through the documented runtime API; real methods ran (self-check 1); name collisions refused; a negative control fails as expected | Physical iPad Air 11-inch (M3), iPadOS 27.0; run twice | Same signing conditions. No `+load`, categories, Foundation or AppKit classes. |
 
 ### Under investigation
 
@@ -51,7 +52,7 @@ Every result below names the environment it was measured in. Definitions of the 
 | | |
 |---|---|
 | A standalone macOS program (`MH_EXECUTE`) or any macOS application through MacBridge on an iPad | **Not demonstrated** |
-| Objective-C classes, or several dependent libraries, through the loader on an iPad | **Not demonstrated** |
+| Several dependent libraries through the loader on an iPad | **Not demonstrated** |
 | The research loader on an Apple Silicon Mac | **Not demonstrated** |
 | Blender through MacBridge, at any stage, on any device | **Not demonstrated** |
 
@@ -117,6 +118,8 @@ Different suites in different environments. They are not added together.
 
 | Suite | Environment | Result | Date | Branch |
 |---|---|---|---|---|
+| Full Swift test suite | Intel Mac, macOS 26.5.2, Xcode 26.5 | 487 passed, 0 failed | 2026-10-10 | Research branch (Objective-C milestone), pull request open |
+| Full Swift test suite under AddressSanitizer | Intel Mac, same | 487 passed, 0 memory-error reports | 2026-10-10 | Same branch and commit, separate run |
 | Full Swift test suite | Intel Mac, macOS 26.5.2, Xcode 26.5 | 485 passed, 0 failed | 2026-10-09 | Research branch (First Contact), pull request open |
 | Full Swift test suite under AddressSanitizer | Intel Mac, same | 481 passed, 0 memory-error reports | 2026-10-09 | Same branch, slightly earlier commit |
 | Portable subset | Cloud Linux, Swift 6.3.2 | 405 passed, as reported by the cloud session; the recorded log (earlier commit) shows 399 | 2026-10-09 | Same research line; 405 not independently re-verified |
@@ -126,6 +129,9 @@ Different suites in different environments. They are not added together.
 
 **2026-10-10**
 
+- **Objective-C on the iPad.** The loader registered the classes of an own macOS-built Objective-C test
+  library and their methods ran, twice; a negative control failed as expected. 487 tests pass on an Intel
+  Mac, and 487 under AddressSanitizer with no report (separate runs). [Details](docs/research/objective-c.md#objective-c-on-a-physical-ipad-2026-10-10).
 - **First Contact.** DeviceProbe ran on a physical iPad Air 11-inch (M3), iPadOS 27.0, in three groups, each
   twice. MacBridge's loader ran its own ARM64 test library, built for iPadOS and built for macOS, and set up
   thread-local variables through its ARM64 entry code. Apple's loader refused the macOS build. Details and
@@ -159,10 +165,10 @@ The full history is in the [research journal](docs/journal.md).
 
 ## Next
 
-1. On the iPad: Objective-C test classes through MacBridge's loader.
-2. On the iPad: several test libraries that depend on each other.
-3. A first minimal macOS program (`MH_EXECUTE`) of MacBridge's own, then distribution signing and code signed
-   by another team.
+1. On the Mac: stronger tests for several test libraries that depend on each other.
+2. A first minimal macOS program (`MH_EXECUTE`): **deferred** pending an owner security and feasibility
+   review.
+3. Distribution signing and code signed by another team.
 4. Owner decisions: merging the research branch; `NSColor`.
 
 The dependency-ordered plan is in [ROADMAP.md](ROADMAP.md).
