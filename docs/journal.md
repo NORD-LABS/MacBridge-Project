@@ -12,6 +12,35 @@ differ, the entry says so.
 
 ## October 2026
 
+### 2026-10-10: First Contact
+
+DeviceProbe ran on a physical iPad Air 11-inch (M3), iPadOS 27.0, as a development build, in three groups
+started one after another, each run twice with identical results.
+
+- **Safe measurements.** 16 KiB pages; about 5.36 GB (4.99 GiB) available to the small app; open-file limit
+  256, raisable to 10,240. Apple's loader loads MacBridge's iPadOS-built test library and refuses the
+  macOS-built one ("incompatible platform"). A request to make an anonymous memory page executable
+  returned success; nothing was run from it, so its meaning is recorded as unknown.
+- **MacBridge's loader.** For both builds of the test library, including the macOS one Apple's loader
+  refuses: signature registered and accepted, fixups identical to the model, initializer run, functions
+  called with the expected results 42, 30, 6, 8, 1.
+- **Thread-local variables** through MacBridge's ARM64 entry code: 3 descriptors, self-check passed. The
+  first run of that code on Apple hardware.
+
+The conditions are part of the result: MacBridge's own tiny C code, signed by the app's team, in a
+development build. No standalone program, no AppKit, no Blender, no other developer's code. Full report:
+[First Contact](research/first-contact.md).
+
+### 2026-10-09: the research branch on a Mac; DeviceProbe blocked by a locked iPad
+
+- The cloud research branch was built and tested on an Intel Mac for the first time: **485 tests pass**, and
+  **481 pass under AddressSanitizer** with no memory error (two runs at nearby commits, not added together).
+  The system headers confirmed the signature-registration interfaces the loader uses.
+- Review on the Mac found and fixed three loader defects before the device run, among them a memory
+  comparison that could report "no differences" for a missing segment.
+- DeviceProbe was rebuilt and installed, but the launch was refused because the iPad was locked. No
+  measurement came from that day.
+
 ### 2026-10-09: reliability work in the cloud; this documentation
 
 - A cloud research session got the portable half of MacBridge (the binary decoders, inspection, runtime
@@ -33,7 +62,7 @@ differ, the entry says so.
   [glossary](glossary.md), and a register of [verified facts](facts.md). While checking the old README
   against the records, one wording error was found and fixed (see [corrections](evidence.md#corrections)).
 
-### 2026-10-08 → 09: DeviceProbe installed, not run
+### 2026-10-08 → 09: DeviceProbe installed, not run (it ran on 2026-10-10)
 
 DeviceProbe, the first experiment designed to run MacBridge's own loader on a physical iPad, was built and
 installed on an iPad Air 11-inch (M3). The run was postponed because the device was locked. **It has no
@@ -114,10 +143,18 @@ separate, and no code imported from GPL-licensed projects.
 
 ## Open questions
 
-These are the questions the next entries are expected to address. None has an answer yet.
+These are the questions the next entries are expected to address.
 
-1. Can MacBridge's loader map and run its own signed test library on a physical iPad?
-2. What memory limit does the iPad apply to an app doing this work?
-3. Could code that began as a Mac program legitimately become executable inside MacBridge's process?
-4. How should `NSColor` be resolved when UIKit already defines it? (Owner decision.)
-5. Do the reliability fixes from the cloud session build and pass on a Mac?
+**Answered on 2026-10-10, narrowly:** MacBridge's loader can map and run its own test library, signed by
+the app's team, on a physical iPad, in a development build, including a build made for macOS. The build
+of the cloud session's fixes passes on an Intel Mac.
+
+**Still open:**
+
+1. Do Objective-C classes, and several dependent libraries, work through the loader on the iPad?
+2. Can a minimal standalone macOS program (`MH_EXECUTE`) be started this way?
+3. Does a distribution build (App Store, TestFlight) behave the same as a development build?
+4. Could code signed by another developer, such as Blender's, legitimately become executable inside
+   MacBridge's process?
+5. How much memory can a real workload use on the iPad?
+6. How should `NSColor` be resolved when UIKit already defines it? (Owner decision.)

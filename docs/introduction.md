@@ -45,21 +45,26 @@ Each step produces a recorded result. A precise "this is blocked by X" counts.
   what they need. It does not run them.
 - A **research loader** runs MacBridge's own small test libraries on an Intel Mac, doing the work macOS's
   loader normally does.
+- **First Contact (October 10, 2026):** on a physical iPad Air (M3), that loader ran a tiny test library
+  MacBridge built for macOS, which Apple's own loader refuses. It returned exactly the expected results. It
+  was MacBridge's own code, signed by the app's team, in a development build
+  ([report](research/first-contact.md)).
 - **Blender 5.2.2** has been analysed in detail: what it loads, what it imports, and which of those things
   iPadOS has.
 
 ## What is not possible today
 
-- No macOS program has run through MacBridge on an iPad.
+- No macOS application, and no standalone macOS program, has run through MacBridge on an iPad.
 - Blender has not run through MacBridge on any device.
-- The research loader has not run on an iPad, or on an Apple Silicon Mac.
+- Code signed by another developer, and App Store or TestFlight builds, have not been tried.
+- The research loader has not run on an Apple Silicon Mac.
 
 ## What remains unknown
 
 The deciding question is whether code that began as a Mac program can legitimately become executable inside
-an iPad app's process. iPadOS runs code that is signed into the app; how a Mac program's code could be in
-that position, without bypassing anything, is open. The next experiment, [DeviceProbe](research/device-probe.md),
-starts to measure it with MacBridge's own test code.
+an iPad app's process. For MacBridge's own test code, signed by the app's team, the first measurement says
+yes ([DeviceProbe](research/device-probe.md)). For code signed by someone else, such as Blender, and for
+distribution builds, it is open.
 
 If the answer is that it cannot be done on a stock iPad, that will be the result, published as precisely as
 any success would be.

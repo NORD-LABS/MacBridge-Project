@@ -29,13 +29,17 @@ Direct answers. Where something is an expectation rather than a measured fact, t
 
 An independent research project by NORD LABS. It investigates whether unmodified ARM64 macOS applications
 could one day run locally on an Apple Silicon iPad through an original compatibility layer, and measures,
-one piece at a time, what that would take. Today it can inspect Mac apps, including on an iPad, and it has
-experimental research code that runs on a Mac.
+one piece at a time, what that would take. Today it can inspect Mac apps, including on an iPad, and its
+experimental loader has run MacBridge's own small test libraries on a Mac and on a physical iPad.
 
 ### Does it run macOS on an iPad?
 
 No. MacBridge does not run macOS, and no macOS application has been shown running through MacBridge on an
 iPad. The MacBridge app that runs on the iPad is an *inspector*: it reads Mac apps and reports on them.
+
+What has run is much smaller: on 2026-10-10, MacBridge's research loader ran a tiny test library that
+MacBridge wrote and built for macOS, on a physical iPad, in a development build signed by the same team as
+the app. See [First Contact](research/first-contact.md).
 
 ### Can it run Blender today?
 
@@ -142,6 +146,9 @@ Measured, each in a named environment:
 - The inspector app works on a physical iPad Air (M3).
 - MacBridge's research loader prepares and runs MacBridge's own small test libraries on an Intel Mac,
   including linking several together, thread-local variables, Objective-C classes and initializers.
+- On a physical iPad Air (M3), iPadOS 27.0, the same loader ran single own test libraries, one of them
+  built for macOS, and set up thread-local variables, in a development build
+  ([First Contact](research/first-contact.md)).
 - Blender 5.2.2's requirements for a background start have been mapped in detail, with a provider for every
   imported system symbol.
 - MacBridge's binary decoders are cross-checked against independent tools. Its fixup decoder, for
@@ -151,14 +158,17 @@ The full list, with environments, is in [STATUS.md](../STATUS.md).
 
 ### What is still unknown?
 
-Above all, whether code that began as a Mac program can legitimately become executable inside an iPad app's
-process. Also: the iPad's memory limit for this kind of workload, how system functions that exist by name
-behave for Mac programs, and everything about windows, input and Metal.
+Above all, whether code signed by *another* developer, such as Blender's, can legitimately become
+executable inside an iPad app's process, and whether distribution builds behave like the development build
+used so far. MacBridge's own same-team-signed code can. Also: whether a complete Mac program, not just a
+library, can be started; how much memory a real workload can use; how system functions that exist by name
+behave for Mac programs; and everything about windows, input and Metal.
 
 ### What would count as the first major breakthrough?
 
 A small, original Mac test program running on a physical iPad through MacBridge, with its output recorded.
-Not Blender, not a screenshot: a measured result on a named device and iPadOS build.
+Not Blender, not a screenshot: a measured result on a named device and iPadOS build. A first step of it, an
+own macOS-built test *library*, ran on 2026-10-10. A standalone *program* is the next milestone.
 
 ### What happens if iPadOS blocks it?
 
@@ -180,6 +190,7 @@ separate private repository.
 ### Can I download a working macOS runtime?
 
 No. There is no runtime to download. MacBridge is research, and nothing in it runs Mac apps on an iPad.
+DeviceProbe is a development-only research app; it is not distributed.
 
 ### Can the project be used commercially?
 

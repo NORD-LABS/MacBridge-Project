@@ -70,10 +70,13 @@ Automated test counts come from different suites in different environments. They
 
 | Suite | Environment | Count | Date | Branch |
 |---|---|---|---|---|
-| Full Swift test suite | Intel Mac, macOS 26.5.2 | 469 passing, 0 failures | 2026-10-08 | Main development branch |
-| Portable subset (the parts that build without Apple frameworks) | Cloud Linux, Swift 6.3.2 | 405 passing | 2026-10-09 | Research branch, not yet merged; not yet rebuilt on a Mac |
+| Full Swift test suite | Intel Mac, macOS 26.5.2, Xcode 26.5 | 485 passing, 0 failures | 2026-10-09 | Research branch (First Contact), pull request open |
+| Full suite under AddressSanitizer | Intel Mac, same | 481 passing, 0 memory-error reports | 2026-10-09 | Same branch, earlier commit |
+| Portable subset (the parts that build without Apple frameworks) | Cloud Linux, Swift 6.3.2 | 405 passing, as reported; the committed log (earlier commit) shows 399 | 2026-10-09 | Research branch; 405 not re-verified |
+| Full Swift test suite (earlier) | Intel Mac, macOS 26.5.2 | 469 passing, 0 failures | 2026-10-08 | Main development branch |
 
-The Linux count is a subset of the same project, not 405 additional tests.
+The Linux count is a subset of the same project, not additional tests. The AddressSanitizer run is the same
+suite at an earlier commit, not additional tests.
 
 ## Corrections
 
@@ -88,7 +91,9 @@ result a second way.
 | 2026-10-08 | A research-loader test showed that an initializer had run. | It had not. The compiler had precomputed the value, so the check passed without the initializer. | The fixture was rewritten so that the value can only come from the initializer. |
 | 2026-10-08 | Two inventories of "the same" Blender build could be compared freely. | They differed by 9,752 bytes, most likely because Python rewrote cached `.pyc` files (inferred; the mechanism was measured on another Blender version). Evidence from a different copy or build is now refused automatically. | Build-identity tracking: every Blender record carries the build's hash and is checked before use. |
 | 2026-10-09 | This public README described "the 47 AppKit definitions" Blender needs to load. | 39 of the 47 come from AppKit; 8 come from Carbon, ColorSync and CoreServices. The public wording was corrected. | Checking the public page against the generated manifest of the load surface while writing this documentation. |
-| 2026-10-09 | MacBridge's binary decoders handled any input safely. | Coverage-guided fuzzing found two crashes and one severe slowdown on crafted files. All three are fixed, each with a reproducer and a regression test. | Fuzzing on Cloud Linux. The fixes are on a research branch that has not yet been built on a Mac. |
+| 2026-10-09 | MacBridge's binary decoders handled any input safely. | Coverage-guided fuzzing found two crashes and one severe slowdown on crafted files. All three are fixed, each with a reproducer and a regression test. | Fuzzing on Cloud Linux; the fixes were later built and tested on an Intel Mac. |
+| 2026-10-10 | Before the run, DeviceProbe's page expected an anonymous memory page could not be made executable. | The call returned success on the iPad. Nothing was run from the page, so what it allows is UNKNOWN. | The device run itself. |
+| 2026-10-10 | Public pages said no macOS binary had run through MacBridge on an iPad. | A macOS-built test library of MacBridge's own has run (First Contact). The wording now says no macOS *application* or standalone program has. | The device run; every page was re-checked against the records. |
 
 ## Where the records live
 

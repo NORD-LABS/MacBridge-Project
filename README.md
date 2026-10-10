@@ -25,7 +25,8 @@ running it would take.
 
 > [!IMPORTANT]
 > **No macOS application has been shown running through MacBridge on an iPad, and Blender does not run
-> through MacBridge on any device.** Every result on this page names the environment it was measured in.
+> through MacBridge on any device.** What has run is MacBridge's own small test library (see First Contact
+> below). Every result on this page names the environment it was measured in.
 
 <br>
 
@@ -49,6 +50,30 @@ security ([SECURITY.md](SECURITY.md)).
 
 <br>
 
+## First Contact
+
+<table>
+  <tr>
+    <td>
+      <b>2026-10-10 · Physical iPad Air (M3), iPadOS 27.0</b><br><br>
+      MacBridge's experimental loader ran <b>its own ARM64 test library, built for macOS</b>, on a physical
+      Apple Silicon iPad. It registered the library's code signature with the system, placed the code in
+      memory, connected every pointer and import with zero differences from its model, ran the library's
+      start-up code and called its functions: <code>42 · 30 · 6 · 8 · 1</code>, exactly as designed.
+      Apple's own loader refuses the same file as "incompatible platform". Thread-local variables also
+      worked through MacBridge's ARM64 entry code, its first run on Apple hardware. Each measurement was
+      run twice.<br><br>
+      <b>The limits are part of the result.</b> The test code was tiny, written by NORD LABS, and signed by
+      the same developer team as the app, which was a development build. No standalone macOS program, no
+      AppKit, no Blender, no other developer's code and no App Store or TestFlight build has run. Nothing
+      was bypassed: the system's signature checks were applied and passed.<br><br>
+      <a href="docs/research/first-contact.md">Read the First Contact report →</a>
+    </td>
+  </tr>
+</table>
+
+<br>
+
 ## Where things stand
 
 <sub>● measured &nbsp; ◐ experimental or partial &nbsp; ○ not yet demonstrated. Full detail in <a href="STATUS.md">STATUS.md</a>.</sub>
@@ -57,12 +82,13 @@ security ([SECURITY.md](SECURITY.md)).
   <tr><th align="left">&nbsp;</th><th align="left">Result</th><th align="left">Shown on</th></tr>
   <tr><td>●</td><td>MacBridge inspector app installed and used</td><td>Physical iPad Air (M3), iPadOS 27.0</td></tr>
   <tr><td>●</td><td>Inspection of macOS apps: Mach-O, bundles, signatures, entitlements, dependencies</td><td>Mac command line and the iPad app</td></tr>
-  <tr><td>◐</td><td>MacBridge's own test libraries mapped, linked, initialized and called by MacBridge's research loader</td><td>Intel Mac, x86_64 builds only</td></tr>
+  <tr><td>◐</td><td>MacBridge's own test libraries mapped, linked, initialized and called by MacBridge's research loader</td><td>Intel Mac (x86_64 builds); physical iPad (ARM64, single libraries, development build)</td></tr>
+  <tr><td>●</td><td>MacBridge's own ARM64 test library <em>built for macOS</em> run on an iPad by MacBridge's loader; Apple's loader refuses it</td><td>Physical iPad Air (M3), iPadOS 27.0, development signing, same-team signature</td></tr>
   <tr><td>●</td><td>Blender 5.2.2 (ARM64) analysed statically: every image, library link and imported system symbol</td><td>Static analysis</td></tr>
   <tr><td>●</td><td>Blender's official build run normally, as a reference for what MacBridge must one day reproduce</td><td>Apple Silicon CI runner and Intel Mac, Apple's own loader, <em>not</em> MacBridge</td></tr>
   <tr><td>◐</td><td>Experimental load surface: the 47 macOS definitions, mostly AppKit's, that Blender needs just to load</td><td>Own test programs, Intel Mac and x86_64 iOS Simulator</td></tr>
-  <tr><td>○</td><td>Capability probe for the iPad (memory limits, and what an app may do with its own signed test code)</td><td>Early build installed; <strong>not yet run</strong></td></tr>
-  <tr><td>○</td><td>Any macOS binary running through MacBridge on a physical iPad</td><td><strong>Not demonstrated</strong></td></tr>
+  <tr><td>●</td><td>Capability probe for the iPad: memory, file limits, Apple's loader, MacBridge's loader on its own signed test code</td><td>Physical iPad Air (M3), iPadOS 27.0, run twice</td></tr>
+  <tr><td>○</td><td>A standalone macOS program, AppKit code, or any macOS application through MacBridge on an iPad</td><td><strong>Not demonstrated</strong></td></tr>
   <tr><td>○</td><td>Blender running through MacBridge</td><td><strong>Not demonstrated</strong>, on any device</td></tr>
 </table>
 
@@ -79,7 +105,7 @@ security ([SECURITY.md](SECURITY.md)).
 | **Fixup decoding** | Agrees exactly with LLVM's `llvm-objdump` on all 195 of Blender's images that carry fixups, about 1.2 million of them. |
 | **Objective-C research** | Blender's own classes parsed and checked against Apple's tools. MacBridge's own test classes registered through the documented runtime API on an Intel Mac; a name that already exists is refused, not replaced. |
 | **Load surface** | The 47 definitions Blender needs just to *load*, 39 of them from AppKit. Removing each in turn stopped loading (44 of 44 cases, Intel Mac and x86_64 simulator). Structure, not an implementation of AppKit. |
-| **Research loader** | On an Intel Mac, maps MacBridge's own test libraries, applies fixups, coalesces weak symbols, sets up thread-local variables, registers Objective-C classes, runs initializers and calls functions. Memory after fixups matches the model byte for byte. Not yet on ARM64 Darwin, not on an iPad, never on Blender. |
+| **Research loader** | On an Intel Mac, maps MacBridge's own test libraries, applies fixups, coalesces weak symbols, sets up thread-local variables, registers Objective-C classes, runs initializers and calls functions. Memory after fixups matches the model byte for byte. On a physical iPad, the same work for single own ARM64 libraries (iOS-built and macOS-built) and thread-local variables, under development signing. Not yet Objective-C or several libraries on the iPad, never on Blender. |
 | **Original fixtures** | Small C, C++ and Objective-C programs written for MacBridge, each built so that one result depends on one loader step. No Apple or Blender code is redistributed. |
 
 Each of these is explained, with its evidence and limits, in [Architecture](docs/architecture.md).
@@ -170,7 +196,8 @@ flowchart TB
 ```
 
 <sub><b>Navy, solid</b>: built and tested, including on iPad. <b>Graphite, dashed</b>: research code and
-models validated on a Mac or statically, not yet on an iPad. <b>Outline only</b>: planned. Subsystem by
+models validated on a Mac or statically; the loader has also run MacBridge's own test libraries on an iPad.
+<b>Outline only</b>: planned. Subsystem by
 subsystem: <a href="docs/architecture.md">Architecture</a>.</sub>
 
 <br>
@@ -181,13 +208,15 @@ subsystem: <a href="docs/architecture.md">Architecture</a>.</sub>
 |---|---|---|
 | 0–1 | Foundations · Inspection | **Complete**, inspector tested on a physical iPad |
 | 2 | Static compatibility mapping for Blender 5.2.2 | **Active**, nearly complete |
-| 3–4 | Original compatibility components · Host execution research | **Experimental**, Mac and simulator only |
-| 5 | Physical-iPad feasibility (DeviceProbe) | **Active**, installed, not yet run |
-| 6 | First original ARM64 macOS program on an iPad | Not started · feasibility **unknown** |
+| 3–4 | Original compatibility components · Host execution research | **Experimental**, Mac and simulator; loader steps also on the iPad |
+| 5 | Physical-iPad feasibility (DeviceProbe) | **Active**, first positive measurements: own same-team-signed libraries run under development signing |
+| 6 | First original ARM64 macOS program on an iPad | **Active**, a macOS-built test *library* has run; a standalone program has not |
 | 7–8 | Headless runtime · Blender headless | Not started |
 | 9–11 | Windows and input · Metal · Usability | Not started |
 
-Phase 5 is a gate: its answer decides whether everything after it is possible on a stock iPad. No dates
+Phase 5 is a gate: its answer decides whether everything after it is possible on a stock iPad. First
+Contact opened it for MacBridge's own code; code signed by other developers and distribution builds are
+still open. No dates
 and no percentages; each phase ends with a recorded result, positive or negative. Definitions of done,
 dependencies and risks: [ROADMAP.md](ROADMAP.md).
 

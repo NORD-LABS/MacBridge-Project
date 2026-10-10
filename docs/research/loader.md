@@ -75,6 +75,20 @@ On an **Intel Mac**, with **x86_64 builds of MacBridge's own test libraries**, t
 | Registers Objective-C classes through Apple's documented runtime API | PASS; a class name that already exists is refused |
 | Runs initializers, then calls exported functions | PASS |
 
+On a **physical iPad Air 11-inch (M3), iPadOS 27.0**, with **ARM64 builds** of MacBridge's own test
+libraries inside a development build of [DeviceProbe](device-probe.md), signed by the app's own team
+(2026-10-10, each run twice):
+
+| Step | Result |
+|---|---|
+| Registers the library's code signature with the system and passes its library-validation check | PASS |
+| Maps the library from its file and applies rebases, binds and lazy binds | PASS: 0 differences from the model |
+| Runs the initializer, then calls exported functions | PASS: 42, 30, 6, 8, 1 |
+| The same for the library **built for macOS**, which Apple's loader refuses | PASS |
+| Sets up thread-local variables through MacBridge's ARM64 entry code | PASS: 3 descriptors, self-check passed |
+
+Full results and limits: [First Contact](first-contact.md).
+
 On **Cloud Linux, under the QEMU emulator**, the ARM64 version of the thread-local entry code, with
 MacBridge's real allocator behind it, kept every register it must keep, on four threads at once. Three
 deliberately broken variants were each caught.
@@ -82,18 +96,17 @@ deliberately broken variants were each caught.
 ## What has not been demonstrated
 
 - The loader has not been built or run for ARM64 on a Mac.
-- It has not run on an iPad.
+- On the iPad it has run single libraries only: not several dependent libraries, not Objective-C classes,
+  not a standalone program (`MH_EXECUTE`).
+- Only code signed by the app's own team, in a development build, has been tried.
 - It has never been pointed at Blender, or at any program that is not MacBridge's own.
-- The emulator result shows the ARM64 instructions are right. It does not show that macOS or iPadOS would
-  accept them.
 
 ## The next question
 
-On a Mac, the research loader can map its test libraries executable because macOS allows that for the
-process it runs in. On an iPad, the rules are different and stricter. The next experiment,
-[DeviceProbe](device-probe.md), asks the loader to do the same thing on a physical iPad with a test library
-that is signed into the app the normal way, and records exactly what the system allows. It changes no
-security setting and works around nothing.
+On the iPad, the loader has now done for single, same-team-signed test libraries what it does on a Mac. The
+next experiments widen that one step at a time: Objective-C classes, several dependent libraries, a first
+standalone program, then distribution signing and code signed by another team. Each changes no security
+setting and works around nothing.
 
 ---
 

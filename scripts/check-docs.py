@@ -42,7 +42,8 @@ BANNED = [
     "rapidly evolving", "digital landscape", "transforming the way", "it's not just", "it’s not just",
 ]
 FORBIDDEN_CLAIMS = [
-    (re.compile(r"\b87[34]\b"), "combined test count (469 and 404/405 are different suites)"),
+    # Sums of separate baselines (Intel Mac 485 / 469, AddressSanitizer 481, Linux 405 / 404 / 399).
+    (re.compile(r"\b(87[34]|868|884|886|890|954|950|966|1371)\b"), "combined test count (485, 481, 469 and 405 are separate baselines)"),
     (re.compile(r"\b\d{1,3}\s?% (complete|finished|done)\b", re.I), "completion percentage"),
 ]
 LOCAL_PATH = re.compile(r"(/Users/[A-Za-z]|/home/[a-z]|[A-Z]:\\\\|file://)")

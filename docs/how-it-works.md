@@ -35,10 +35,12 @@ setup code. Only then does the app itself start.
 
 On a Mac, macOS's loader does this. Apple's loader also checks which system a program was made for. In
 Apple's iPad simulator, it looks at a Mac library, sees that it was made for macOS, and refuses it before
-anything runs. That refusal is a deliberate check, and MacBridge does not try to get around it.
+anything runs. That refusal is a deliberate check, and MacBridge does not try to change it or trick it.
 
-So MacBridge would need its own loader, one that prepares a Mac program inside the MacBridge app. That
-loader exists today as research code that works with small test programs on a Mac.
+So MacBridge needs its own loader, one that prepares a Mac program inside the MacBridge app. That loader
+exists today as research code. It works with small test libraries on a Mac and, since October 2026, on a
+real iPad, where it ran a small test library that MacBridge built for macOS. The iPad's own security checks
+still applied: the library had to carry a valid signature from the same developer as the app, and it did.
 
 ## A compatibility layer
 
@@ -73,14 +75,18 @@ something about a Mac. The same goes for Apple's iPad *simulator*, which runs on
 enforce all of the iPad's rules.
 
 That is why every result MacBridge publishes says *where* it was measured, and why the project's most
-important upcoming experiment, [DeviceProbe](research/device-probe.md), has to run on a real iPad.
+important experiment, [DeviceProbe](research/device-probe.md), had to run on a real iPad.
 
 ## What would count as a breakthrough
 
-Not a screenshot of Blender on an iPad. The first real breakthrough would be much smaller: **a tiny,
-original Mac test program, running on a physical iPad through MacBridge, with its output recorded.** That
-would show the core idea can work within the iPad's rules. Everything after it, including Blender, would
-still have to be shown step by step.
+Not a screenshot of Blender on an iPad. The first real breakthrough is much smaller: **tiny, original Mac
+test code, running on a physical iPad through MacBridge, with its output recorded.**
+
+The first half of that happened on October 10, 2026: a small test *library* that MacBridge built for macOS
+ran on an iPad and returned exactly the expected numbers ([First Contact](research/first-contact.md)). It
+was MacBridge's own code, signed by the same developer as the app, in a development build. A complete Mac
+*program*, with its own starting point, has not run yet. Everything after it, including Blender, still has
+to be shown step by step.
 
 ---
 

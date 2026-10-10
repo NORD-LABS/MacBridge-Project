@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="330" viewBox="0 0 1200 330" role="img" aria-labelledby="t d">
   <title id="t">Where MacBridge results come from</title>
-  <desc id="d">Five environments from left to right: Cloud Linux, Intel Mac, Apple Silicon Mac, iOS Simulator and physical iPad. Each one can show something different, and none stands in for another. Only the physical iPad can answer whether MacBridge works on an iPad; so far its one result is the inspector app.</desc>
+  <desc id="d">Five environments from left to right: Cloud Linux, Intel Mac, Apple Silicon Mac, iOS Simulator and physical iPad. Each one can show something different, and none stands in for another. Only the physical iPad can answer whether MacBridge works on an iPad; so far it has two results: the inspector app, and MacBridge's loader running its own test libraries (First Contact, 2026-10-10).</desc>
   <style>
     .h { font: 600 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Helvetica, Arial, sans-serif; letter-spacing: 1.6px; fill: #F4F6F8; }
     .b { font: 400 15px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Helvetica, Arial, sans-serif; fill: #8A9099; }
@@ -38,7 +38,8 @@
   <text class="b" x="978" y="148">The only place</text>
   <text class="b" x="978" y="172">the central question</text>
   <text class="b" x="978" y="196">can be answered</text>
-  <text class="a" x="978" y="238">Inspector: PASS</text>
+  <text class="a" x="978" y="222">Inspector: PASS</text>
+  <text class="a" x="978" y="244">Own loader: PASS</text>
   <path d="M30 296 H1156" stroke="#3A404A" stroke-width="1.5" fill="none"/>
   <path d="M1156 290 L1170 296 L1156 302" fill="none" stroke="#3A404A" stroke-width="1.5" stroke-linejoin="round"/>
   <text class="n" x="30" y="320">closer to the question that matters  ·  a result in one column is never copied to another</text>

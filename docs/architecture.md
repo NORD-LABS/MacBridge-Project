@@ -13,7 +13,8 @@ subsystem.
 | Label | Meaning |
 |---|---|
 | **BUILT** | Implemented and tested, including on a physical iPad where stated. |
-| **EXPERIMENTAL ON MAC** | Research code or models validated on a Mac, in the iOS Simulator or statically. Not on an iPad. |
+| **EXPERIMENTAL ON MAC** | Research code or models validated on a Mac, in the iOS Simulator or statically. Not on an iPad unless a row says so. |
+| **FIRST iPad STEPS** | Research code that has also run on a physical iPad, with MacBridge's own test code only, under the conditions stated. |
 | **PLANNED** | Designed or described, not implemented. |
 | **UNKNOWN / BLOCKED** | Depends on a question nobody has answered yet, or on a known obstacle. |
 
@@ -31,13 +32,13 @@ flowchart TB
     end
 
     subgraph prepare["Prepare: loading"]
-        loader["Research loader<br/>EXPERIMENTAL ON MAC"]
+        loader["Research loader<br/>EXPERIMENTAL · FIRST iPad STEPS"]
         objc["Objective-C registration<br/>EXPERIMENTAL ON MAC"]
         shim["AppKit load surface<br/>EXPERIMENTAL ON MAC"]
     end
 
     subgraph run["Run: on the iPad"]
-        exec["Executable code in the app's process<br/>UNKNOWN"]
+        exec["Executable code in the app's process<br/>own same-team code: measured<br/>other developers' code: UNKNOWN"]
         services["Process, file and system services<br/>PLANNED"]
         ui["Windows and input<br/>PLANNED"]
         gpu["Metal graphics<br/>PLANNED"]
@@ -62,13 +63,17 @@ flowchart TB
     style run fill:transparent,stroke:#8a9099
 ```
 
-<sub>Navy: built. Graphite, dashed: experimental, not on an iPad. Outline, dotted: planned. Amber outline:
-unknown, and everything below it depends on the answer.</sub>
+<sub>Navy: built. Graphite, dashed: experimental (the loader has also taken its first steps on an iPad, with
+MacBridge's own test code). Outline, dotted: planned. Amber outline: partly unknown, and everything below
+it depends on the answer.</sub>
 
 The diagram reads top to bottom, but the dependency that matters most is in the middle. Everything in
-"Run" depends on one open question: whether code that came from a Mac program can legitimately become
-executable inside an iPad app's process. If the answer is no, the lower half of this diagram cannot be
-built on a stock iPad, and that will be published as the result.
+"Run" depends on one question: whether code that came from a Mac program can legitimately become
+executable inside an iPad app's process. For MacBridge's own test code, signed by the app's team in a
+development build, the answer measured on 2026-10-10 is yes ([First Contact](research/first-contact.md)).
+For code signed by someone else, and for distribution builds, it is still open. If that answer is no, the
+lower half of this diagram cannot be built for real apps on a stock iPad, and that will be published as
+the result.
 
 ---
 
@@ -118,10 +123,10 @@ built on a stock iPad, and that will be published as the result.
 | | |
 |---|---|
 | **Purpose** | Do what macOS's loader does, for a program that macOS's loader will not be there to load. |
-| **Status** | EXPERIMENTAL ON MAC. |
-| **Evidence** | On an Intel Mac, with MacBridge's own x86_64 test libraries: maps them, applies fixups, links several together with weak-symbol coalescing, sets up thread-local variables, registers Objective-C classes, runs initializers and calls their functions. ARM64 thread-local entry code passed its contract under an emulator on Linux. |
-| **Limits** | Own fixtures only. Not built for ARM64 Darwin, not run on an iPad, never run on Blender. |
-| **Next** | Build and test on a Mac, then measure on the iPad with DeviceProbe. See [The experimental loader](research/loader.md). |
+| **Status** | EXPERIMENTAL ON MAC; first steps measured on a physical iPad. |
+| **Evidence** | On an Intel Mac, with MacBridge's own x86_64 test libraries: maps them, applies fixups, links several together with weak-symbol coalescing, sets up thread-local variables, registers Objective-C classes, runs initializers and calls their functions. On a physical iPad Air (M3), iPadOS 27.0, with own ARM64 test libraries signed by the app's team in a development build: registers each library's signature, maps it, applies fixups (0 differences from the model), runs its initializer and calls it, including a library built for macOS; thread-local variables work through its ARM64 entry code ([First Contact](research/first-contact.md)). |
+| **Limits** | Own fixtures only. On the iPad: single libraries, no Objective-C yet, no standalone program, same-team signing and development builds only. Not yet built for an Apple Silicon Mac; never run on Blender. |
+| **Next** | Objective-C classes and several dependent libraries on the iPad, then a first minimal own program. See [The experimental loader](research/loader.md). |
 
 ### Objective-C registration and the AppKit load surface
 
@@ -137,9 +142,9 @@ built on a stock iPad, and that will be published as the result.
 | | |
 |---|---|
 | **Purpose** | Run the loaded program's instructions inside MacBridge's process. |
-| **Status** | UNKNOWN. |
-| **Evidence** | iPadOS runs code signed into the app. General executable memory is documented by Apple only for alternative browser engines. Nothing has been measured on a device yet. |
-| **Next** | [DeviceProbe](research/device-probe.md): measure what an app may do with its *own* signed test library. |
+| **Status** | PARTIAL: measured for MacBridge's own code; UNKNOWN for anyone else's. |
+| **Evidence** | iPadOS runs code signed into the app. On a physical iPad, MacBridge's own test libraries, signed by the app's team, were mapped executable by MacBridge's loader and ran, in a development build ([DeviceProbe](research/device-probe.md)). A request to make anonymous memory executable returned success, but nothing was run from it (UNKNOWN). General executable memory is documented by Apple only for alternative browser engines. |
+| **Next** | Distribution builds, and a test library signed by another team: the case that decides whether Blender's code could be in that position. |
 
 ### Process, file and system services
 

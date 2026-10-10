@@ -160,7 +160,8 @@ copy from a template.
 **Why it matters.** Ten of Blender's headless images use thread-local variables, 94 of them in total, and
 Blender is heavily multithreaded. The entry code has a strict rule: on ARM64 it may change only a few
 registers and must preserve all the vector registers. MacBridge's ARM64 version of this entry code passed
-that contract on four threads, but only under an emulator on Linux; it has not run on Apple hardware.
+that contract on four threads under an emulator on Linux, and on 2026-10-10 it set up three thread-local
+variables correctly on a physical iPad, its first run on Apple hardware.
 
 ---
 
@@ -212,9 +213,10 @@ Every piece of code that runs on an iPad must be signed in a way the system acce
 are more flexible.
 
 **Why it matters.** This is one of the central unknowns. An iPad app can run code that is signed into the
-app. Whether, and how, code that originated as a Mac program could be legitimately signed and mapped
-inside MacBridge's process is exactly what [DeviceProbe](research/device-probe.md) is meant to begin
-measuring. MacBridge does not bypass, disable or weaken code signing, and will record a block if that is
+app. [DeviceProbe](research/device-probe.md) showed that MacBridge's own test library, built for macOS
+and signed by the app's team, can be registered, accepted and mapped inside MacBridge's process in a
+development build. Whether code signed by another developer, such as Blender, could be in that position is
+still open. MacBridge does not bypass, disable or weaken code signing, and will record a block if that is
 the answer.
 
 ### Executable memory
@@ -224,7 +226,7 @@ become executable.
 
 **Why it matters.** A loader must map a program's code as executable. iPadOS allows that for code signed
 into the app; general "just-in-time" executable memory is documented by Apple only for alternative browser
-engines. This is the decisive unknown in Blender's preflight.
+engines. For code signed by another developer it is the decisive unknown in Blender's preflight.
 
 ### Entitlements
 

@@ -5,7 +5,8 @@ locally on an Apple Silicon iPad. These pages explain the idea, the evidence so 
 
 > [!IMPORTANT]
 > The MacBridge inspector app runs on a physical iPad. **macOS applications do not run through MacBridge
-> on an iPad**, and Blender has not run through MacBridge on any device.
+> on an iPad**, and Blender has not run through MacBridge on any device. What has run on an iPad through
+> MacBridge is its own small test code ([First Contact](research/first-contact.md)).
 
 ## Start here
 
@@ -27,6 +28,7 @@ locally on an Apple Silicon iPad. These pages explain the idea, the evidence so 
 | What a loader does and what MacBridge's has demonstrated | [The experimental loader](research/loader.md) |
 | Why classes matter during loading; the `NSColor` question | [Objective-C research](research/objective-c.md) |
 | The first experiment designed for a physical iPad | [DeviceProbe](research/device-probe.md) |
+| What ran on the iPad on 2026-10-10, and what it does not show | [First Contact](research/first-contact.md) |
 
 ## How claims are checked
 
